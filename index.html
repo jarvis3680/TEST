@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜登入</title>
+<link rel="stylesheet" href="assets/css/shared.css">
+<style>
+  #v-login{display:flex!important;}
+  #v-app{display:none!important;}
+</style>
+</head>
+<body>
+<!-- ═══════════════════════════════════════════════════════════
+     登入頁
+═══════════════════════════════════════════════════════════ -->
+<div id="v-login" class="view active">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-deco">
+    <svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#b8860b" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <circle cx="450" cy="200" r="180" fill="url(#lg1)"/>
+      <circle cx="450" cy="200" r="120" fill="none" stroke="#b8860b" stroke-opacity="0.15" stroke-width="1"/>
+      <circle cx="450" cy="200" r="80" fill="none" stroke="#b8860b" stroke-opacity="0.2" stroke-width="1"/>
+      <path d="M 100 600 Q 300 500 500 600 T 600 700" stroke="#4a73b5" stroke-opacity="0.3" stroke-width="1" fill="none"/>
+      <path d="M 100 650 Q 300 550 500 650 T 600 750" stroke="#4a73b5" stroke-opacity="0.2" stroke-width="1" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="login-left">
+    <div class="login-brand-row">
+      <div class="login-brand-mark"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6BAMAAAB6wkcOAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAALVBMVEUAAAAUQZkQQJ8PPJYVSZolt6oAqqoWSZkXUaIapqYetKUiu6oUQZklt6r///+ikEQvAAAADHRSTlMA/hAR9v4D9hYUEQ9ZrzViAAAAAWJLR0QOb70wTwAAAAd0SU1FB+oEDwcSIwk0M/YAAACvSURBVHja7dwxEYAwEEXBCEmHA9BBixsEYIUKC+lT0+GFmo4iwzGTfQZWwJ+7lGtcJdXI6HQ6nU6n0+l0Op1Op9PpdDqdTqcH6MMU15gkSZIkSZIkSVJv5TcLxnw1a3no9WP9pNPpdDqdTqfT6T3pK51Op9PpdDqdTv+H/lwHXt1NbHuzDnOQJEmSJEmSJEnBxX5V8k2LTqfT6XQ6nU6n0+l0Op1Op9Pp9N70HIiXGxp1ziztVHlfAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI2LTA0LTE1VDA3OjE4OjM1KzAwOjAwGWeW7QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNi0wNC0xNVQwNzoxODozNSswMDowMGg6LlEAAAAASUVORK5CYII=" alt="經濟部"></div>
+      <div class="login-brand-text">
+        <div class="moea">經濟部 ｜ 投資審議司</div>
+        <div class="agency">Department of Investment Review, MOEA</div>
+      </div>
+    </div>
+
+    <div class="login-hero">
+      <h1><span class="accent">產業鏈查詢系統</span></h1>
+      <h2>Industry Chain Query System</h2>
+      <p id="loginMainDesc">
+        整合工研院產業地圖、國科會 114 年公告之國家核心關鍵技術 42 項及其技術架構與代表廠商盤點，
+        提供投資審查官員以「廠商」為核心之多維度探索、產業鏈視覺化、技術標註與歷史鑑定案件紀錄。
+      </p>
+      <div class="login-stats">
+        <div class="login-stat"><div class="num">8</div><div class="lbl">大產業類別</div></div>
+        <div class="login-stat"><div class="num">42</div><div class="lbl">關鍵技術項</div></div>
+        <div class="login-stat"><div class="num">3,017</div><div class="lbl">建檔廠商數</div></div>
+        <div class="login-stat"><div class="num">1,894</div><div class="lbl">產業節點</div></div>
+      </div>
+    </div>
+
+    <div class="login-foot">
+      ©版權所有　經濟部投資審議司　本系統僅供經授權人員使用，所有操作均經完整稽核
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="login-card-title">系統登入</div>
+      <div class="login-card-sub">請使用您的公務帳號登入系統</div>
+
+      <div class="fld">
+        <label class="fld-label">帳號</label>
+        <div class="fld-wrap">
+          <span class="fld-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+          </span>
+          <input type="text" class="fld-input with-icon" value="moea_review_001" placeholder="請輸入公務帳號">
+        </div>
+      </div>
+
+      <div class="fld">
+        <label class="fld-label">密碼</label>
+        <div class="fld-wrap">
+          <span class="fld-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <input type="password" class="fld-input with-icon" value="••••••••••" placeholder="請輸入密碼">
+        </div>
+      </div>
+
+      <div class="fld">
+        <label class="fld-label">驗證碼</label>
+        <div class="fld-row">
+          <input type="text" class="fld-input" placeholder="輸入右側驗證碼">
+          <div class="captcha-box">7K3M9</div>
+        </div>
+      </div>
+
+      <button class="btn-login" onclick="goView('dash')"><span>登 入 系 統</span></button>
+
+      <div class="login-meta">
+        <a>忘記密碼？</a>
+        <a>申請帳號</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     主框架（首頁/查詢頁/詳細頁共用）
+═══════════════════════════════════════════════════════════ -->
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+<script src="assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "app/dash.html", "query2": "app/query.html", "detail": "app/firm-detail.html", "cases": "app/cases.html", "case-detail": "app/case-detail.html", "industry": "app/industry.html", "tech": "app/tech.html", "audit": "app/audit.html", "adm-users": "app/admin/users.html", "settings": "app/admin/settings.html", "adm-firm": "app/admin/firm.html", "adm-industry": "app/admin/industry.html", "adm-tech": "app/admin/tech.html", "adm-case": "app/admin/cases.html", "orgmgr": "app/orgmgr.html"};
+window.goView=function(t){
+  showToast('登入成功 · 歡迎回來王玉姍');
+  setTimeout(function(){location.href=_URLS[t||'dash'];},400);
+};
+</script>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('loginMainDesc');
+    if (saved) {
+      var el = document.getElementById('loginMainDesc');
+      if (el) el.textContent = saved;
+    }
+  } catch(e){}
+})();
+</script>
+</body>
+</html>

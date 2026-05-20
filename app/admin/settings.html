@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜系統設定</title>
+<link rel="stylesheet" href="../../assets/css/layout.css">
+<link rel="stylesheet" href="../../assets/css/shared.css">
+<link rel="stylesheet" href="../../assets/css/detail.css">
+<link rel="stylesheet" href="../../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../../assets/css/query.css">
+</head>
+<body data-nav-page="settings" data-crumb="系統設定" data-root="../../">
+
+<div class="content">
+        <div id="page-settings">
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">系統設定</h2>
+                <div class="ph-sub">個人資料、安全設定與系統參數</div>
+              </div>
+            </div>
+
+            <div class="set-grid">
+              <!-- 個人資料 -->
+              <div class="set-card">
+                <div class="set-card-head"><span>👤</span>個人資料</div>
+                <div class="set-profile">
+                  <div class="sp-avatar">王</div>
+                  <div class="sp-info">
+                    <div class="sp-name">王玉姍</div>
+                    <div class="sp-role">審查官</div>
+                  </div>
+                </div>
+                <div class="set-rows">
+                  <div class="sr"><span class="sr-l">員工編號</span><span class="sr-r mono">MOEA-IC-2024-0142</span></div>
+                  <div class="sr"><span class="sr-l">所屬科室</span><span class="sr-r">對外投資科 (2科)</span></div>
+                  <div class="sr"><span class="sr-l">職稱</span><span class="sr-r">審查官</span></div>
+                  <div class="sr"><span class="sr-l">電子郵件</span><span class="sr-r">yushan.wang@moea.gov.tw</span></div>
+                  <div class="sr"><span class="sr-l">分機</span><span class="sr-r mono">02-2321-2200 ext 2421</span></div>
+                  <div class="sr"><span class="sr-l">最後登入</span><span class="sr-r">2026-04-28 14:27 (本機)</span></div>
+                </div>
+                <button class="set-btn">編輯個人資料</button>
+              </div>
+
+              <!-- 角色與權限 -->
+              <div class="set-card">
+                <div class="set-card-head"><span>🔑</span>權限設定</div>
+                <div id="settingsPermGrid" style="font-size:12.5px">
+                  <!-- 由 JS 動態渲染 -->
+                </div>
+                <div id="settingsPermEditBtn" style="margin-top:12px;display:none">
+                  <button class="set-btn" onclick="showPage('adm-users')">⚙ 前往帳號管理修改權限</button>
+                </div>
+              </div>
+
+              <!-- 安全 -->
+              <div class="set-card">
+                <div class="set-card-head"><span>🔒</span>安全設定</div>
+                <div class="set-rows">
+                  <div class="sr"><span class="sr-l">密碼</span><span class="sr-r">●●●●●●●●（最後變更：2026-01-15）</span></div>
+                  <div class="sr"><span class="sr-l">兩步驟驗證</span><span class="sr-r"><span class="badge ok">已啟用</span> WebAuthn / FIDO2</span></div>
+                  <div class="sr"><span class="sr-l">GSP SSO</span><span class="sr-r"><span class="badge ok">已綁定</span> login.cp.gov.tw</span></div>
+                  <div class="sr"><span class="sr-l">同時登入</span><span class="sr-r">僅允許 1 個工作階段</span></div>
+                  <div class="sr"><span class="sr-l">閒置登出</span><span class="sr-r">15 分鐘</span></div>
+                  <div class="sr"><span class="sr-l">登入裝置</span><span class="sr-r">本機 (10.32.18.45) · 此瀏覽器</span></div>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <button class="set-btn">變更密碼</button>
+                  <button class="set-btn ghost">管理裝置</button>
+                </div>
+              </div>
+
+              <!-- 登入頁說明文字管理 -->
+              <div class="set-card">
+                <div class="set-card-head"><span>✏️</span>登入頁說明文字</div>
+                <div class="set-rows">
+                  <textarea id="loginDescInline"
+                    rows="5"
+                    style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;font-family:inherit;resize:vertical;line-height:1.7;color:#1e293b;box-sizing:border-box"
+                  >整合工研院產業地圖、國科會 114 年公告之國家核心關鍵技術 42 項及其技術架構與代表廠商盤點，提供投資審查官員以「廠商」為核心之多維度探索、產業鏈視覺化、技術標註與歷史鑑定案件紀錄。</textarea>
+                </div>
+                <button class="set-btn" onclick="loginDescSaveInline()" style="margin-top:10px">✓ 儲存說明文字</button>
+              </div>
+
+              <!-- 系統資訊 -->
+              <div class="set-card span2">
+                <div class="set-card-head"><span>ℹ️</span>系統資訊</div>
+                <div style="font-size:11.5px;font-weight:700;color:#94a3b8;margin-bottom:6px;letter-spacing:.05em">系統環境（唯讀）</div>
+                <div class="sys-grid" style="margin-bottom:14px">
+                  <div class="sg-item"><span class="sg-l">作業系統</span><span class="sg-r mono">Ubuntu Linux 24.04.xx</span></div>
+                  <div class="sg-item"><span class="sg-l">資料庫</span><span class="sg-r mono">PostgreSQL 17</span></div>
+                  <div class="sg-item"><span class="sg-l">委辦廠商</span><span class="sg-r">○○資訊股份有限公司</span></div>
+                </div>
+                <div style="font-size:11.5px;font-weight:700;color:#94a3b8;margin-bottom:6px;letter-spacing:.05em">版本資訊（可編輯）</div>
+                <div class="sys-grid">
+                  <div class="sg-item">
+                    <span class="sg-l">產業地圖版本</span>
+                    <input type="text" id="sysInfoInd" value="工研院 2024 (1,894 節點)" class="sg-edit-input">
+                  </div>
+                  <div class="sg-item">
+                    <span class="sg-l">關鍵技術版本</span>
+                    <input type="text" id="sysInfoTech" value="國科會 114-11-24 公告" class="sg-edit-input">
+                  </div>
+                  <div class="sg-item">
+                    <span class="sg-l">廠商資料版本</span>
+                    <input type="text" id="sysInfoFirm" value="2026-01 (3,017 家)" class="sg-edit-input">
+                  </div>
+                </div>
+                <button class="set-btn" style="margin-top:10px" onclick="sysInfoSave()">✓ 儲存版本資訊</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+<!-- 登入頁說明文字編輯 Modal -->
+<div class="adm-modal" id="loginDescModal">
+  <div class="adm-modal-bg" onclick="loginDescCloseModal()"></div>
+  <div class="adm-modal-box" style="width:min(520px,92vw)">
+    <div class="adm-modal-head">
+      <div><div class="adm-modal-title">✏️ 修改登入頁說明文字</div></div>
+      <button class="adm-modal-close" onclick="loginDescCloseModal()">×</button>
+    </div>
+    <div class="adm-modal-body">
+      <div class="adm-form-group full" style="margin-bottom:12px">
+        <label>說明文字 1</label>
+        <textarea id="loginDescEdit1" rows="3" style="width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
+      </div>
+      <div class="adm-form-group full">
+        <label>說明文字 2</label>
+        <textarea id="loginDescEdit2" rows="2" style="width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
+      </div>
+    </div>
+    <div class="adm-modal-footer">
+      <button class="adm-cancel-btn" onclick="loginDescCloseModal()">取消</button>
+      <button class="adm-save-btn" onclick="loginDescSaveModal()">✓ 儲存</button>
+    </div>
+  </div>
+</div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "../dash.html", "query2": "../query.html", "detail": "../firm-detail.html", "cases": "../cases.html", "case-detail": "../case-detail.html", "industry": "../industry.html", "tech": "../tech.html", "audit": "../audit.html", "adm-users": "users.html", "settings": "settings.html", "adm-firm": "firm.html", "adm-industry": "industry.html", "adm-tech": "tech.html", "adm-case": "cases.html", "orgmgr": "../orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  try{settingsRenderPerms();}catch(e){console.warn("settingsRenderPerms",e);}
+  
+});
+
+// 管理模組 JS 載入確認
+(function() {
+  var MAX_WAIT = 5000; // 最多等 5 秒
+  var CHECK_FN = 'settingsRenderPerms';
+  var JS_FILES = ["../../assets/js/industry.js", "../../assets/js/tech.js", "../../assets/js/main.js"];
+  
+  function checkAndLoad() {
+    if (typeof window[CHECK_FN] === 'function') return; // 已載入
+    
+    // 動態重新載入 JS 檔案
+    function loadJS(src, cb) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = src;
+      s.onload = cb;
+      s.onerror = cb;
+      document.head.appendChild(s);
+    }
+    
+    var idx = 0;
+    function loadNext() {
+      if (idx >= JS_FILES.length) {
+        if (typeof window[CHECK_FN] !== 'function') {
+          console.error('[管理模組] 載入失敗：' + CHECK_FN + ' 仍未定義');
+        }
+        return;
+      }
+      loadJS(JS_FILES[idx++], loadNext);
+    }
+    loadNext();
+  }
+  
+  // 頁面完全載入後再檢查
+  if (document.readyState === 'complete') {
+    setTimeout(checkAndLoad, 100);
+  } else {
+    window.addEventListener('load', function() { setTimeout(checkAndLoad, 100); });
+  }
+})();
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

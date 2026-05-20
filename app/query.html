@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜廠商查詢</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+</head>
+<body data-nav-page="query2" data-crumb="廠商查詢" data-root="../">
+
+<div class="content">
+        <div id="page-query2">
+
+            <!-- 頁標 -->
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">廠商查詢</h2>
+                <div class="ph-sub">建檔廠商總數 <b style="color:#0f2347">3,017</b> 家 · 透過進階搜尋條件精準篩選符合需求之廠商</div>
+              </div>
+            </div>
+
+            <!-- ═══════════ 進階搜尋區（可收合）═══════════ -->
+            <div class="q2-search" id="q2Search">
+              <!-- 收合時顯示的精簡列 -->
+              <div class="q2-search-collapsed" onclick="q2ToggleSearch()">
+                <span class="q2-arr">▶</span>
+                <span class="q2-cl-title">進階搜尋</span>
+                <span class="q2-cl-summary" id="q2ClSummary">（已套用 0 條件）</span>
+                <button class="q2-cl-edit">✎ 編輯條件</button>
+              </div>
+
+              <!-- 展開時顯示的完整搜尋表單 -->
+              <div class="q2-search-expanded">
+                <div class="q2-search-head">
+                  <span class="q2-arr">▼</span>
+                  <span class="q2-search-title">進階搜尋條件</span>
+                  <button class="q2-collapse-btn" onclick="q2ToggleSearch()">收合 ▲</button>
+                </div>
+
+                <!-- 條件 1：廠商關鍵字 -->
+                <div class="q2-cond">
+                  <div class="q2-cond-label">
+                    <span class="q2-cond-num">1</span>
+                    <span>廠商名稱 / 統編 / 關鍵字</span>
+                  </div>
+                  <div class="q2-cond-body">
+                    <div class="q2-kw-wrap">
+                      <input type="text" class="q2-input" id="q2KW"
+                             placeholder="輸入廠商名稱、統編、簡稱、別名（如 TSMC、台積、護國神山、2330）..."
+                             oninput="q2Autocomplete(this.value)"
+                             onfocus="q2Autocomplete(this.value)"
+                             onblur="setTimeout(q2HideAutocomplete, 200)"
+                             autocomplete="off">
+                      <div class="q2-autocomplete" id="q2Autocomplete"></div>
+                    </div>
+                    <div class="q2-quick-tags">
+                      <span class="q2-quick-lbl">常用：</span>
+                      <span class="q2-tag" onclick="q2SetKW('台積電')">台積電</span>
+                      <span class="q2-tag" onclick="q2SetKW('聯發科')">聯發科</span>
+                      <span class="q2-tag" onclick="q2SetKW('日月光')">日月光</span>
+                      <span class="q2-tag" onclick="q2SetKW('鴻海')">鴻海</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 條件 2：產業分類 L1~L6 -->
+                <div class="q2-cond">
+                  <div class="q2-cond-label">
+                    <span class="q2-cond-num">2</span>
+                    <span>產業分類</span>
+                  </div>
+                  <div class="q2-cond-body">
+                    <div class="q2-picker-row">
+                      <button class="q2-picker-trigger" onclick="q2OpenIndPicker()">
+                        <span class="q2-pt-icon">📁</span>
+                        <span class="q2-pt-text">瀏覽 / 選擇產業分類</span>
+                        <span class="q2-pt-arr">▾</span>
+                      </button>
+                      <span class="q2-pick-info">已選 <b id="q2IndCount">0</b> 項</span>
+                    </div>
+                    <div class="q2-chips" id="q2IndChips"></div>
+                  </div>
+                </div>
+
+                <!-- 條件 3：涉及關鍵技術 -->
+                <div class="q2-cond">
+                  <div class="q2-cond-label">
+                    <span class="q2-cond-num">3</span>
+                    <span>涉及關鍵技術</span>
+                  </div>
+                  <div class="q2-cond-body">
+                    <div class="q2-picker-row">
+                      <button class="q2-picker-trigger" onclick="q2OpenTechPicker()">
+                        <span class="q2-pt-icon">⚠</span>
+                        <span class="q2-pt-text">瀏覽 / 選擇關鍵技術</span>
+                        <span class="q2-pt-arr">▾</span>
+                      </button>
+                      <span class="q2-pick-info">已選 <b id="q2TechCount">0</b> 項</span>
+                    </div>
+                    <div class="q2-chips" id="q2TechChips"></div>
+                  </div>
+                </div>
+
+                <!-- 動作列 -->
+                <div class="q2-actions">
+                  <button class="q2-clear-btn" onclick="q2ClearAll()" style="margin-left:auto">↺ 清除條件</button>
+                  <button class="q2-search-btn" onclick="q2DoSearch()">🔍 套用搜尋</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═══════════ 引導提示區（未搜尋時顯示）═══════════ -->
+            <div class="q2-empty" id="q2Empty">
+              <div class="q2-empty-icon">🔍</div>
+              <div class="q2-empty-title">請先設定搜尋條件</div>
+              <div class="q2-empty-msg">填寫上方進階搜尋條件並點擊「套用搜尋」，或使用下方常用情境快捷直接帶入：</div>
+
+              <div class="q2-shortcuts">
+                <div class="q2-shortcut" onclick="q2RunShortcut('semi-listed')">
+                  <div class="q2-sc-icon">🏭</div>
+                  <div class="q2-sc-info">
+                    <div class="q2-sc-title">半導體上市櫃廠商</div>
+                    <div class="q2-sc-desc">半導體產業 + 上市/上櫃</div>
+                  </div>
+                </div>
+
+                <div class="q2-shortcut critical" onclick="q2RunShortcut('hit-critical')">
+                  <div class="q2-sc-icon">⚠</div>
+                  <div class="q2-sc-info">
+                    <div class="q2-sc-title">涉及關鍵技術之廠商</div>
+                    <div class="q2-sc-desc">涉及 42 項任一核心關鍵技術</div>
+                  </div>
+                </div>
+
+                <div class="q2-shortcut" onclick="q2RunShortcut('ai-chip')">
+                  <div class="q2-sc-icon">🧠</div>
+                  <div class="q2-sc-info">
+                    <div class="q2-sc-title">AI 晶片產業鏈</div>
+                    <div class="q2-sc-desc">技術 34、35（AI 晶片 + Chiplet）</div>
+                  </div>
+                </div>
+
+                <div class="q2-shortcut" onclick="q2RunShortcut('recent')">
+                  <div class="q2-sc-icon">🆕</div>
+                  <div class="q2-sc-info">
+                    <div class="q2-sc-title">近 30 日新增異動</div>
+                    <div class="q2-sc-desc">最新異動於近 30 日內之廠商</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═══════════ 搜尋結果區（搜尋後顯示）═══════════ -->
+            <div class="q2-results" id="q2Results" style="display:none">
+              <div class="q2-result-head">
+                <div class="q2-result-title">
+                  符合條件廠商 <b class="q2-rs-num" id="q2ResultCount">96</b> 家
+                  <span class="q2-rs-warn">，其中 ⚠ <b>11 家</b> 涉及關鍵技術</span>
+                </div>
+                <div class="q2-result-tools">
+                  <select class="q2-select-sm">
+                    <option>排序：風險高至低</option>
+                    <option>排序：建檔年新→舊</option>
+                    <option>排序：資本額大→小</option>
+                    <option>排序：員工數多→少</option>
+                  </select>
+                  <button class="mini-btn">📥 匯出 Excel</button>
+                </div>
+              </div>
+
+              <!-- 廠商卡片列表(由 JS 動態渲染)-->
+              <div class="q2-firm-list" id="q2FirmList"></div>
+
+              <!-- 分頁(由 JS 動態渲染)-->
+              <div class="pagination" id="q2Pagination" style="margin-top:18px"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════════════════════
+             v3.3 廠商查詢 v2 — 產業分類 / 關鍵技術 多選器 modal
+             ════════════════════════════════════════════════════════════════ -->
+        <div class="q2-modal" id="q2IndModal">
+          <div class="q2-modal-bg" onclick="q2CloseIndPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">📁 選擇產業分類（L1~L7）</div>
+                <div class="q2-modal-sub">資料源：工研院產業地圖 2024 · 共 2,057 個節點 · 可同時勾選多個層級的節點</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseIndPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2IndFilter" placeholder="輸入關鍵字過濾節點，例如：IC、半導體、GaN..." oninput="q2FilterIndTree()">
+                <button class="q2-sb-clear" onclick="q2ClearIndFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2IndExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2IndCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2IndPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2IndTreeWrap">
+              <div class="q2-tech-allrow" onclick="q2ToggleAllInd(document.getElementById('q2IndAllCb'))">
+                <input type="checkbox" class="q2-tree-cb-all" id="q2IndAllCb" onclick="event.stopPropagation();q2ToggleAllInd(this)">
+                <span class="q2-tech-all-lbl">☑ 全部選取（一次加入所有節點）</span>
+              </div>
+              <div id="q2IndTree">
+              <!-- 由 JS 渲染 -->
+              </div><!-- #q2IndTree -->
+            </div><!-- #q2IndTreeWrap -->
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2IndClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2IndApply()">✓ 套用 (<span id="q2IndApplyCnt">0</span>)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="q2-modal" id="q2TechModal">
+          <div class="q2-modal-bg" onclick="q2CloseTechPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">⚠ 選擇涉及之關鍵技術（42 項）</div>
+                <div class="q2-modal-sub">資料源:國家核心關鍵技術 · 5 部會公告 2025/11/24 · 5 主管機關共 42 項</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseTechPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2TechFilter" placeholder="輸入關鍵字過濾，例如：AI、Chiplet、SiC、衛星..." oninput="q2FilterTechTree()">
+                <button class="q2-sb-clear" onclick="q2ClearTechFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2TechExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2TechCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2TechPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2TechTree">
+              <!-- 由 JS 渲染 -->
+            </div>
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2TechClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2TechApply()">✓ 套用 (<span id="q2TechApplyCnt">0</span>)</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/industry.js"></script>
+<script src="../assets/js/tech.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/query-tree.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  
+  
+});
+
+
+
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

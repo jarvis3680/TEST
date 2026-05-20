@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜廠商詳細</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+<link rel="stylesheet" href="../assets/css/industry.css">
+</head>
+<body data-nav-page="query2" data-crumb="廠商詳細" data-root="../">
+
+<div class="content">
+        <div id="page-detail">
+
+            <!-- 麵包屑 + 返回 -->
+            <div class="breadcrumb">
+              <button class="back-btn" onclick="showPage('query2')">‹ 返回查詢結果</button>
+              <span class="crumb-sep">/</span>
+              <span class="crumb">廠商查詢</span>
+              <span class="crumb-sep">/</span>
+              <span class="crumb-cur" id="fd-breadcrumb">日月光半導體製造股份有限公司</span>
+            </div>
+
+            <!-- 公司頭資訊 -->
+            <div class="com-head">
+              <div class="com-head-logo crit" id="fd-logo">日</div>
+              <div class="com-head-info">
+                <div class="com-head-title">
+                  <h1 id="fd-name">日月光半導體製造股份有限公司</h1>
+                  <div class="com-head-en" id="fd-en-name">ASE Semiconductor (Kaohsiung) Inc.</div>
+                </div>
+                <div class="com-head-meta">
+                  <span class="meta-item"><span class="meta-lbl">統編</span><span class="meta-val mono" id="fd-uid">76027628</span></span>
+                </div>
+              </div>
+              <div class="com-head-side">
+                <div class="risk-meter critical" id="fd-risk-meter">
+                  <div class="rm-inner">
+                    <div class="rm-detail">
+                      <div>本廠商涉及 <b id="fd-hit-count">8</b> 項國家核心關鍵技術</div>
+                      <div>落入 <b id="fd-node-cnt-rm">8 個</b>產業地圖節點</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 列 -->
+            <div class="tabs">
+              <button class="tab on" onclick="switchTab(event,'tab-basic')">基本資料</button>
+              <button class="tab" onclick="switchTab(event,'tab-tech')">
+                關鍵技術標註
+                <span class="tab-pill crit" id="fd-tab-tech-cnt">3</span>
+              </button>
+              <button class="tab" onclick="switchTab(event,'tab-cases')">
+                歷史鑑定紀錄
+                <span class="tab-pill" id="fd-tab-cases-cnt">3</span>
+              </button>
+              <button class="tab" onclick="switchTab(event,'tab-org')">事業群架構圖</button>
+            </div>
+
+            <!-- ============== Tab 1：基本資料 ============== -->
+            <div class="tab-pane on" id="tab-basic">
+              <div class="dgrid-2">
+                <!-- 產業分類完整路徑(v6 重做:顯示廠商所有真實節點路徑) -->
+                <div class="info-card span2">
+                  <div class="info-card-head"><span>🏭</span>本廠商所有產業路徑(實際層級)</div>
+                  <div class="ind-paths-block" id="fd-ind-paths"></div>
+                </div>
+              </div><!-- /.dgrid-2 -->
+            </div>
+
+            <!-- ============== Tab 2：關鍵技術標註 ============== -->
+            <div class="tab-pane" id="tab-tech" style="display:none">
+
+              <!-- 簡介列：本廠商涉及項數 + 主要說明 -->
+              <div style="background:#fff5f5;border:1px solid #fcd2d2;border-left:4px solid #a31621;border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:13px;line-height:1.6;color:#475569">
+                <span id="firmTechHitSummary" style="font-size:14px;font-weight:800;color:#a31621">本廠商涉及 0 項國家核心關鍵技術</span>
+                <span id="firmTechHitMain" style="margin-left:8px;color:#64748b"></span>
+                <div style="font-size:11.5px;color:#64748b;margin-top:5px">
+                  <b style="color:#a31621">紅色底線</b> 表示該項技術下「本廠商被專家盤點為代表廠商」之技術架構；
+                  <b>黑色一般字</b> 表示該技術下其他子架構但本廠商未被列入。
+                  英文縮寫釋義集中於各項技術下方。
+                </div>
+              </div>
+
+              <!-- ════════════════════════════════════════════════════════════
+                   ★ 區塊 ① — 涉及之核心關鍵技術（含技術架構） ★
+                   每項技術一行：標題 + 技術架構列表（涉及標紅、未涉及淡）+ 集中註解
+                   ════════════════════════════════════════════════════════════ -->
+              <div class="tech-spec-card v33">
+                <div class="tech-spec-head">
+                  <span class="bullet"></span>
+                  <span>涉及之國家核心關鍵技術(含技術架構)</span>
+                </div>
+                <div id="firmTechHitContainer"></div>
+              </div>
+
+              <!-- ════════════════════════════════════════════════════════════
+                   ★ 區塊 ② — 產業架構（節點路徑）↔ 涉及之國家核心關鍵技術 ★
+                   一條產業節點路徑對應一個（或多個）涉及的關鍵技術；未觸發顯示 N.A.
+                   ════════════════════════════════════════════════════════════ -->
+              <div class="tech-spec-card v33">
+                <div class="tech-spec-head">
+                  <span class="bullet"></span>
+                  <span>產業架構 ↔ 涉及之國家核心關鍵技術</span>
+                </div>
+                <div class="tbl-wrap">
+                <table class="path-tech-table-v33">
+                  <thead>
+                    <tr>
+                      <th style="width:60%">產業架構</th>
+                      <th style="width:40%">涉及之國家核心關鍵技術</th>
+                    </tr>
+                  </thead>
+                  <tbody id="firmPathTechBody"></tbody>
+                </table>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- ============== Tab 3:歷史鑑定紀錄(v6 重做:列表 + modal 詳情) ============== -->
+            <div class="tab-pane" id="tab-cases" style="display:none">
+
+              <!-- 摘要列 -->
+              <div class="case-bar">
+                <div class="case-bar-stat">
+                  <span>歷史鑑定 <b>5</b> 件</span>
+                  <span class="sep">|</span>
+                  <span>結果為「涉及」<b class="warn-num">2</b> 件</span>
+                </div>
+                <div class="case-bar-tools">
+                  <button class="mini-btn">📊 統計檢視</button>
+                  <button class="mini-btn">📥 匯出 Excel</button>
+                </div>
+              </div>
+
+              <!-- 列表(由 JS 動態渲染) -->
+              <div class="tbl-wrap">
+              <table class="firm-cases-table" id="firmCasesTable">
+                <thead>
+                  <tr class="fc-thead-1">
+                    <th class="fc-th-id" rowspan="2">案件編號</th>
+                    <th class="fc-th-date" rowspan="2">到件日期</th>
+                    <th class="fc-th-name-group" colspan="3">案件名稱</th>
+                    <th class="fc-th-src" rowspan="2">案件來源</th>
+                    <th class="fc-th-result" rowspan="2">審查結果</th>
+                    <th class="fc-th-tech" rowspan="2">涉及技術項目</th>
+                    <th class="fc-th-act" rowspan="2">內容</th>
+                  </tr>
+                  <tr class="fc-thead-2">
+                    <th class="fc-th-sub">投資人</th>
+                    <th class="fc-th-sub">投資事業</th>
+                    <th class="fc-th-sub">中轉公司</th>
+                  </tr>
+                </thead>
+                <tbody id="firmCasesBody"></tbody>
+              </table>
+              </div>
+
+            </div>
+
+            <!-- ============== Tab 4：事業群架構圖 ============== -->
+            <div class="tab-pane" id="tab-org" style="display:none">
+              <div class="org-tools">
+                <div class="ot-left">
+                  <button class="ot-btn on">完整架構</button>
+                  <button class="ot-btn">僅含關鍵技術</button>
+                  <button class="ot-btn">海外控股鏈</button>
+                </div>
+                <div class="ot-right">
+                  <span class="ot-info">共 18 個關聯實體 · 7 家涉及關鍵技術</span>
+                </div>
+              </div>
+
+              <div class="org-tree">
+                <div class="org-l1">
+                  <!-- 母公司:日月光投資控股 - 點擊跳該公司頁(模擬有資料) -->
+                  <div class="org-node parent crit" onclick="orgNodeClick('日月光投資控股股份有限公司', true)" title="點擊檢視該公司詳情">
+                    <div class="on-flag">⚠</div>
+                    <div class="on-name">日月光投資控股股份有限公司</div>
+                    <div class="on-meta">控股母公司 · 統編 03245678 · 涉及 0</div>
+                  </div>
+                </div>
+                <div class="org-conn"></div>
+                <div class="org-l2">
+                  <!-- 自身節點:日月光半導體製造 - 當前廠商 -->
+                  <div class="org-node self crit" onclick="orgNodeClick('日月光半導體製造', 'self')" title="這是當前正在檢視的廠商">
+                    <div class="on-flag">★</div>
+                    <div class="on-name">日月光半導體製造</div>
+                    <div class="on-meta">統編 76027628 · <b>涉及 5 項</b></div>
+                    <div class="on-cases">歷史審查 3 件</div>
+                  </div>
+                  <!-- 國內子公司:矽品精密工業 - 模擬有資料,可跳轉 -->
+                  <div class="org-node child crit" onclick="orgNodeClick('矽品精密工業', true)" title="點擊檢視該公司詳情">
+                    <div class="on-flag">⚠</div>
+                    <div class="on-name">矽品精密工業</div>
+                    <div class="on-meta">統編 22520447 · 涉及 3 項</div>
+                    <div class="on-cases">歷史審查 5 件</div>
+                  </div>
+                  <!-- 國內子公司:日月光福懋通信 - 模擬資料庫無詳細資料 -->
+                  <div class="org-node child" onclick="orgNodeClick('日月光福懋通信', false)" title="點擊檢視（資料庫無詳細資料）">
+                    <div class="on-name">日月光福懋通信</div>
+                    <div class="on-meta">統編 89441120 · 未涉及</div>
+                  </div>
+                  <!-- 海外控股:ASE Test Holdings (Cayman) - 海外實體無詳細資料 -->
+                  <div class="org-node child overseas crit" onclick="orgNodeClick('ASE Test Holdings (Cayman)', false, true)" title="海外實體 · 點擊檢視">
+                    <div class="on-flag">⚠</div>
+                    <div class="on-name">ASE Test Holdings (Cayman)</div>
+                    <div class="on-meta">海外 · 開曼群島 · <b>需注意</b></div>
+                    <div class="on-cases">歷史審查 2 件</div>
+                  </div>
+                  <!-- 海外子公司:日月光(上海)封裝 -->
+                  <div class="org-node child overseas" onclick="orgNodeClick('日月光（上海）封裝', false, true)" title="海外實體 · 點擊檢視">
+                    <div class="on-name">日月光（上海）封裝</div>
+                    <div class="on-meta">海外 · 中國大陸</div>
+                  </div>
+                  <!-- 海外子公司:ASE Vietnam -->
+                  <div class="org-node child overseas" onclick="orgNodeClick('ASE Vietnam', false, true)" title="海外實體 · 點擊檢視">
+                    <div class="on-name">ASE Vietnam</div>
+                    <div class="on-meta">海外 · 越南</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="org-legend">
+                <div class="ol-item"><span class="ol-dot crit"></span>涉及關鍵技術</div>
+                <div class="ol-item"><span class="ol-dot self"></span>當前廠商</div>
+                <div class="ol-item"><span class="ol-dot ovs"></span>海外實體</div>
+                <div class="ol-item"><span class="ol-dot norm"></span>未涉及</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+        <div class="org-no-data-modal" id="orgNoDataModal" onclick="closeOrgNoDataModal(event)">
+          <div class="orgnd-box" onclick="event.stopPropagation()">
+            <div class="orgnd-icon">🌐</div>
+            <div class="orgnd-title" id="orgndTitle">海外實體 · 無詳細資料</div>
+            <div class="orgnd-msg" id="orgndMsg">
+              本系統僅記錄此節點之名稱與關聯關係，未建立完整廠商主檔。<br>
+              <span style="color:#94a3b8;font-size:12px">海外公司之基本資料（成立年份、設立國家、資本額等）目前不在系統蒐集範圍內，僅供搜尋比對使用。</span>
+            </div>
+            <div class="orgnd-actions">
+              <button class="orgnd-btn primary" onclick="closeOrgNoDataModal()">了解</button>
+            </div>
+          </div>
+        </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/industry.js"></script>
+<script src="../assets/js/tech.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(id==='case-detail'&&state&&state.caseId){
+    location.href=_URLS['case-detail']+'?caseId='+encodeURIComponent(state.caseId)+'&from='+(state.from||'detail');return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  
+  var _p=new URLSearchParams(location.search),_f=_p.get('firmId');if(_f&&typeof renderFirmDetail==='function')setTimeout(()=>renderFirmDetail(_f),100);
+});
+
+// 覆寫 openCaseFromFirm：傳 caseId + firmId 到 case-detail.html
+window.openCaseFromFirm = function(caseId) {
+  var firmId = document.getElementById('fd-reg-uid') ?
+               document.getElementById('fd-reg-uid').textContent.trim() : '';
+  location.href = _URLS['case-detail']
+    + '?caseId=' + encodeURIComponent(caseId)
+    + '&from=detail'
+    + (firmId ? '&firmId=' + encodeURIComponent(firmId) : '');
+};
+
+// 覆寫 openCaseFromList：從歷史鑑定案件列表
+window.openCaseFromList = function(caseId) {
+  location.href = _URLS['case-detail']
+    + '?caseId=' + encodeURIComponent(caseId)
+    + '&from=cases';
+};
+
+
+// 覆寫 orgNodeClick：多頁模式下處理節點點擊
+window.orgNodeClick = function(name, hasDetail, overseas) {
+  if (hasDetail === 'self') {
+    showToast('「' + name + '」是當前正在檢視的廠商');
+    return;
+  }
+  if (hasDetail === true) {
+    showToast('正在載入「' + name + '」廠商詳情... (demo：實際版本將帶入廠商統編)');
+    return;
+  }
+  var modal = document.getElementById('orgNoDataModal');
+  var title = document.getElementById('orgndTitle');
+  var msg   = document.getElementById('orgndMsg');
+  if (title) title.textContent = overseas
+    ? '「' + name + '」· 海外實體無詳細資料'
+    : '「' + name + '」· 無詳細資料';
+  if (msg) msg.innerHTML = overseas
+    ? '本系統僅記錄此海外實體之名稱與關聯關係，未建立完整廠商主檔。<br><span style="color:#94a3b8;font-size:12px">海外公司之基本資料目前不在系統蒐集範圍內。</span>'
+    : '此節點尚未於系統中建立完整廠商基本資料。<br><span style="color:#94a3b8;font-size:12px">您可至「後台 → 廠商資料管理」新增。</span>';
+  if (modal) modal.classList.add('show');
+};
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

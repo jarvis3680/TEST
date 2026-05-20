@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜首頁總覽</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+</head>
+<body data-nav-page="dash" data-crumb="首頁總覽" data-root="../">
+
+<div class="content">
+        <div id="page-dash">
+          <!-- v3.3 整併：Hero + 警示橫幅合一 -->
+          <div class="dash-band">
+            <div class="dash-band-left">
+              <h1 class="dash-band-greet">午安，王玉姍</h1>
+              <p class="dash-band-msg">歡迎使用產業鏈查詢系統</p>
+            </div>
+            <div class="dash-band-right">
+              <div class="dash-band-warn-icon">⚠</div>
+              <button class="dash-band-btn" onclick="showPage('query2',null,{filter:'has-crit'})">查看 216 家涉及清單 →</button>
+            </div>
+          </div>
+
+          <!-- KPI（v3.3 縮高 30% + 取消趨勢徽章；第 4 個改為技術架構統計） -->
+          <div class="kpi-grid">
+            <div class="kpi t-total"><div class="kpi-bar"></div>
+              <div class="kpi-head">
+                <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+              </div>
+              <div class="kpi-num">3,017</div>
+              <div class="kpi-lbl">建檔廠商總數</div>
+            </div>
+
+            <div class="kpi t-tech"><div class="kpi-bar"></div>
+              <div class="kpi-head">
+                <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+              </div>
+              <div class="kpi-num">216</div>
+              <div class="kpi-lbl">涉及關鍵技術廠商</div>
+            </div>
+
+            <div class="kpi t-case"><div class="kpi-bar"></div>
+              <div class="kpi-head">
+                <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+              </div>
+              <div class="kpi-num">142</div>
+              <div class="kpi-lbl">歷史鑑定案件</div>
+            </div>
+
+            <!-- 新：關鍵技術架構統計 -->
+            <div class="kpi t-arch"><div class="kpi-bar"></div>
+              <div class="kpi-head">
+                <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+              </div>
+              <div class="kpi-num">42 <span class="unit">/ 192</span></div>
+              <div class="kpi-lbl">關鍵技術 / 技術架構</div>
+            </div>
+          </div>
+
+          <!-- 兩欄主內容 -->
+          <div class="dash-grid">
+            <!-- 左：產業涉及熱力圖 + 待審案件 -->
+            <div style="display:flex;flex-direction:column;gap:20px">
+
+              <!-- 產業涉及熱力圖 -->
+              <div class="panel">
+                <div class="panel-head">
+                  <div>
+                    <div class="t">產業涉及關鍵技術分布</div>
+                    <div class="s">8 大產業中各層級廠商涉及 42 項關鍵技術之分布概況</div>
+                  </div>
+                  <a class="a" onclick="showPage('industry')">完整地圖 →</a>
+                </div>
+                <div class="panel-body">
+
+                  <div class="heat-row">
+                    <div class="heat-name">電子資訊產業</div>
+                    <div class="heat-bar">
+                      <div class="seg crit" style="width:45%">28</div>
+                      <div class="seg high" style="width:25%">15</div>
+                      <div class="seg med" style="width:8%">5</div>
+                      <div class="seg low" style="width:22%">14</div>
+                    </div>
+                    <div class="heat-cnt">62</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">新興科技應用</div>
+                    <div class="heat-bar">
+                      <div class="seg crit" style="width:35%">12</div>
+                      <div class="seg high" style="width:30%">10</div>
+                      <div class="seg med" style="width:15%">5</div>
+                      <div class="seg low" style="width:20%">7</div>
+                    </div>
+                    <div class="heat-cnt">34</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">材料與化工</div>
+                    <div class="heat-bar">
+                      <div class="seg crit" style="width:20%">6</div>
+                      <div class="seg high" style="width:35%">10</div>
+                      <div class="seg med" style="width:25%">7</div>
+                      <div class="seg low" style="width:20%">6</div>
+                    </div>
+                    <div class="heat-cnt">29</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">機械與車輛</div>
+                    <div class="heat-bar">
+                      <div class="seg crit" style="width:5%">2</div>
+                      <div class="seg high" style="width:18%">5</div>
+                      <div class="seg med" style="width:32%">9</div>
+                      <div class="seg low" style="width:45%">13</div>
+                    </div>
+                    <div class="heat-cnt">29</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">新興能源</div>
+                    <div class="heat-bar">
+                      <div class="seg crit" style="width:15%">3</div>
+                      <div class="seg high" style="width:40%">8</div>
+                      <div class="seg med" style="width:25%">5</div>
+                      <div class="seg low" style="width:20%">4</div>
+                    </div>
+                    <div class="heat-cnt">20</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">生醫產業</div>
+                    <div class="heat-bar">
+                      <div class="seg high" style="width:18%">3</div>
+                      <div class="seg med" style="width:35%">6</div>
+                      <div class="seg low" style="width:47%">8</div>
+                    </div>
+                    <div class="heat-cnt">17</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">金屬產業</div>
+                    <div class="heat-bar">
+                      <div class="seg high" style="width:12%">2</div>
+                      <div class="seg med" style="width:38%">5</div>
+                      <div class="seg low" style="width:50%">8</div>
+                    </div>
+                    <div class="heat-cnt">15</div>
+                  </div>
+
+                  <div class="heat-row">
+                    <div class="heat-name">民生產業</div>
+                    <div class="heat-bar">
+                      <div class="seg med" style="width:20%">2</div>
+                      <div class="seg low" style="width:80%">8</div>
+                    </div>
+                    <div class="heat-cnt">10</div>
+                  </div>
+
+                  <div style="display:flex;gap:14px;justify-content:flex-end;margin-top:14px;font-size:11px;color:var(--muted);flex-wrap:wrap">
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--m-def);border-radius:2px"></span>1–14 項(國防部)</span>
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--m-nstc);border-radius:2px"></span>15–28 項(國科會)</span>
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--m-moea);border-radius:2px"></span>29–36 項(經濟部)</span>
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--m-moda);border-radius:2px"></span>37–39 項(數發部)</span>
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--m-moa);border-radius:2px"></span>40–42 項(農業部)</span>
+                    <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;background:var(--low);border-radius:2px"></span>未涉及</span>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  
+  
+});
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

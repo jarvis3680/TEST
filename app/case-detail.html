@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜案件詳細</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+</head>
+<body data-nav-page="cases" data-crumb="案件詳細" data-root="../">
+
+<div class="content">
+        <div id="page-case-detail">
+
+            <!-- 標題列：返回 + 編號 + 結果 -->
+            <div class="cd-page-head has-impact" id="cdPageHead">
+              <button class="cd-page-back" id="cdBackBtn" onclick="goBackFromCase()">‹ 返回案件列表</button>
+              <span class="cd-id" id="cdId">11520041200</span>
+              <span class="cd-result-tag has-impact" id="cdResultTag"><span style="font-size:11.5px;font-weight:600;color:#a31621;margin-right:4px">審查結果:</span>⚠ 是 · 涉及核心關鍵技術</span>
+              <button class="cd-print-btn" style="margin-left:auto" onclick="window.print()">🖨 友善列印</button>
+              <div style="font-size:12px;color:#64748b">最後更新:<span id="cdUpdated">2026-03-28</span></div>
+            </div>
+
+            <!-- 案件基本資訊 -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>案件基本資訊</span>
+              </div>
+              <div class="cd-meta-grid">
+                <div class="cd-meta-item"><span class="cd-num"></span><span class="lbl">案件編號</span><span class="val" style="font-family:'JetBrains Mono',monospace" id="cdMetaId">11520041200</span></div>
+                <div class="cd-meta-item"><span class="cd-num"></span><span class="lbl">到件日期</span><span class="val" id="cdMetaDate">2026-03-15</span></div>
+                <div class="cd-meta-item" style="grid-column:1 / -1"><span class="cd-num"></span><span class="lbl">案件來源</span><span class="val" id="cdMetaSource">對外投資科(1科)</span></div>
+              </div>
+              <div class="cd-name-section">
+                <div class="cd-name-title">案件名稱</div>
+                <div class="cd-name-rows">
+                  <div class="cd-name-row"><span class="cd-name-tag investor">投資人</span><span class="cd-name-val" id="cdNameInvestor">—</span></div>
+                  <div class="cd-name-row"><span class="cd-name-tag entity">投資事業</span><span class="cd-name-val" id="cdNameEntity">—</span></div>
+                  <div class="cd-name-row"><span class="cd-name-tag mid">中轉公司</span><span class="cd-name-val empty" id="cdNameMid">—</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 投資架構:投資人 → 中轉公司 → 投資事業 三段流程 -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>投資架構</span>
+              </div>
+              <div class="cd-flow" id="cdFlow"></div>
+            </div>
+
+            <!-- 涉及技術 + 注意事項雙欄 -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>涉及技術項目與注意事項</span>
+              </div>
+              <div class="cd-info-grid">
+                <div class="cd-info-cell">
+                  <div class="head"><span class="cd-num"></span>涉及技術項目</div>
+                  <div class="body" id="cdTechBody"></div>
+                </div>
+                <div class="cd-info-cell">
+                  <div class="head"><span class="cd-num"></span>注意事項</div>
+                  <div class="body" id="cdNoticeBody"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 審查說明 -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>審查說明</span>
+              </div>
+              <div class="cd-long-body collapsed" id="cdReviewBody"></div>
+              <div class="cd-long-toggle" onclick="cdToggleLong(this)">
+                <span class="lbl">展開全文</span>
+                <span class="arr">▼</span>
+              </div>
+            </div>
+
+            <!-- 複審說明(含 Q&A) -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>複審說明</span>
+              </div>
+              <div class="cd-long-body collapsed" id="cdReReviewBody"></div>
+              <div class="cd-long-toggle" id="cdReReviewToggle" onclick="cdToggleLong(this)">
+                <span class="lbl">展開全文</span>
+                <span class="arr">▼</span>
+              </div>
+            </div>
+
+            <!-- 附件檔案專區 (v5：對齊 PPT Slide 10 固定 5 槽設計) -->
+            <div class="cd-section">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>📎 附件檔案</span>
+              </div>
+              <div class="cd-files-fixed">
+
+                <!-- 槽 1：關鍵技術鑑定報告 -->
+                <div class="cd-file-slot uploaded">
+                  <div class="cd-slot-head">
+                    <span class="cd-slot-num">1</span>
+                    <span class="cd-slot-title">關鍵技術鑑定報告</span>
+                    <span class="cd-slot-required">必要</span>
+                  </div>
+                  <div class="cd-slot-body">
+                    <div class="cd-file-icon pdf">PDF</div>
+                    <div class="cd-file-info">
+                      <div class="cd-file-name">關鍵技術鑑定報告_11520041200.pdf</div>
+                      <div class="cd-file-meta">
+                        <span>3.1 MB</span><span class="sep">·</span>
+                        <span>2026-03-18</span>
+                      </div>
+                    </div>
+                    <div class="cd-slot-actions">
+                      <button class="cd-file-dl" onclick="alert('（原型模擬）已開始下載：關鍵技術鑑定報告_11520041200.pdf')">⬇ 下載</button>
+                      <button class="cd-file-replace" onclick="cdMockReplace(this, '關鍵技術鑑定報告')">↻ 替換</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 槽 2：申請資料 -->
+                <div class="cd-file-slot uploaded">
+                  <div class="cd-slot-head">
+                    <span class="cd-slot-num">2</span>
+                    <span class="cd-slot-title">申請資料</span>
+                    <span class="cd-slot-required">必要</span>
+                  </div>
+                  <div class="cd-slot-body">
+                    <div class="cd-file-icon doc">DOC</div>
+                    <div class="cd-file-info">
+                      <div class="cd-file-name">投資申請資料_群創光電_20260315.docx</div>
+                      <div class="cd-file-meta">
+                        <span>1.3 MB</span><span class="sep">·</span>
+                        <span>2026-03-15</span>
+                      </div>
+                    </div>
+                    <div class="cd-slot-actions">
+                      <button class="cd-file-dl" onclick="alert('（原型模擬）已開始下載：投資申請資料_群創光電_20260315.docx')">⬇ 下載</button>
+                      <button class="cd-file-replace" onclick="cdMockReplace(this, '申請資料')">↻ 替換</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 槽 3：公文 -->
+                <div class="cd-file-slot uploaded">
+                  <div class="cd-slot-head">
+                    <span class="cd-slot-num">3</span>
+                    <span class="cd-slot-title">其他附件 1</span>
+                    <span class="cd-slot-optional">其他資料</span>
+                  </div>
+                  <div class="cd-slot-body">
+                    <div class="cd-file-icon pdf">PDF</div>
+                    <div class="cd-file-info">
+                      <div class="cd-file-name">公文_投審字第 1150041200 號.pdf</div>
+                      <div class="cd-file-meta">
+                        <span>425 KB</span><span class="sep">·</span>
+                        <span>2026-03-29</span>
+                      </div>
+                    </div>
+                    <div class="cd-slot-actions">
+                      <button class="cd-file-dl" onclick="alert('（原型模擬）已開始下載：公文_投審字第 1150041200 號.pdf')">⬇ 下載</button>
+                      <button class="cd-file-replace" onclick="cdMockReplace(this, '公文')">↻ 替換</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 槽 4：廠商後續補充資料 -->
+                <div class="cd-file-slot uploaded">
+                  <div class="cd-slot-head">
+                    <span class="cd-slot-num">4</span>
+                    <span class="cd-slot-title">其他附件 2</span>
+                    <span class="cd-slot-optional">其他資料</span>
+                  </div>
+                  <div class="cd-slot-body">
+                    <div class="cd-file-icon pdf">PDF</div>
+                    <div class="cd-file-info">
+                      <div class="cd-file-name">廠商補充說明_製程設備清單_3/26.pdf</div>
+                      <div class="cd-file-meta">
+                        <span>2.7 MB</span><span class="sep">·</span>
+                        <span>2026-03-26</span>
+                      </div>
+                    </div>
+                    <div class="cd-slot-actions">
+                      <button class="cd-file-dl" onclick="alert('（原型模擬）已開始下載：廠商補充說明_製程設備清單_3/26.pdf')">⬇ 下載</button>
+                      <button class="cd-file-replace" onclick="cdMockReplace(this, '廠商後續補充資料')">↻ 替換</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 槽 5：往來問答 email 截圖 -->
+                <div class="cd-file-slot uploaded">
+                  <div class="cd-slot-head">
+                    <span class="cd-slot-num">5</span>
+                    <span class="cd-slot-title">其他附件 3</span>
+                    <span class="cd-slot-optional">其他資料</span>
+                  </div>
+                  <div class="cd-slot-body">
+                    <div class="cd-file-icon img">IMG</div>
+                    <div class="cd-file-info">
+                      <div class="cd-file-name">往來問答 email 截圖_3/21~3/28.png</div>
+                      <div class="cd-file-meta">
+                        <span>2.2 MB</span><span class="sep">·</span>
+                        <span>2026-03-28</span>
+                      </div>
+                    </div>
+                    <div class="cd-slot-actions">
+                      <button class="cd-file-dl" onclick="alert('（原型模擬）已開始下載：往來問答 email 截圖_3/21~3/28.png')">⬇ 下載</button>
+                      <button class="cd-file-replace" onclick="cdMockReplace(this, '往來問答 email 截圖')">↻ 替換</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- 舊版散裝附件區（保留於下方供對照，正式版可刪除） -->
+            <div class="cd-section" style="display:none">
+              <div class="cd-section-title">
+                <span class="cd-bullet"></span>
+                <span>📎 附件檔案（舊版散裝設計，已停用）</span>
+              </div>
+              <div class="cd-files-grid">
+
+                <div class="cd-file-card">
+                  <div class="cd-file-icon pdf">PDF</div>
+                  <div class="cd-file-info">
+                    <div class="cd-file-name">關鍵技術鑑定報告_11520041200.pdf</div>
+                    <div class="cd-file-meta">
+                      <span class="fmt">PDF</span><span class="sep">·</span>
+                      <span>3.1 MB</span><span class="sep">·</span>
+                      <span>2026-03-18</span>
+                    </div>
+                  </div>
+                  <button class="cd-file-dl">⬇ 下載</button>
+                </div>
+
+                <div class="cd-file-card">
+                  <div class="cd-file-icon doc">DOC</div>
+                  <div class="cd-file-info">
+                    <div class="cd-file-name">投資申請資料_群創光電_20260315.docx</div>
+                    <div class="cd-file-meta">
+                      <span class="fmt">DOCX</span><span class="sep">·</span>
+                      <span>1.3 MB</span><span class="sep">·</span>
+                      <span>2026-03-15</span>
+                    </div>
+                  </div>
+                  <button class="cd-file-dl">⬇ 下載</button>
+                </div>
+
+                <div class="cd-file-card">
+                  <div class="cd-file-icon pdf">PDF</div>
+                  <div class="cd-file-info">
+                    <div class="cd-file-name">廠商補充說明_製程設備清單_3/26.pdf</div>
+                    <div class="cd-file-meta">
+                      <span class="fmt">PDF</span><span class="sep">·</span>
+                      <span>2.7 MB</span><span class="sep">·</span>
+                      <span>2026-03-26</span>
+                    </div>
+                  </div>
+                  <button class="cd-file-dl">⬇ 下載</button>
+                </div>
+
+                <div class="cd-file-card">
+                  <div class="cd-file-icon doc">DOC</div>
+                  <div class="cd-file-info">
+                    <div class="cd-file-name">公文_投審字第 1150041200 號.pdf</div>
+                    <div class="cd-file-meta">
+                      <span class="fmt">PDF</span><span class="sep">·</span>
+                      <span>425 KB</span><span class="sep">·</span>
+                      <span>2026-03-29</span>
+                    </div>
+                  </div>
+                  <button class="cd-file-dl">⬇ 下載</button>
+                </div>
+
+                <div class="cd-file-card">
+                  <div class="cd-file-icon img">IMG</div>
+                  <div class="cd-file-info">
+                    <div class="cd-file-name">往來問答 email 截圖_3/21~3/28.png</div>
+                    <div class="cd-file-meta">
+                      <span class="fmt">PNG</span><span class="sep">·</span>
+                      <span>2.2 MB</span><span class="sep">·</span>
+                      <span>2026-03-28</span>
+                    </div>
+                  </div>
+                  <button class="cd-file-dl">⬇ 下載</button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+
+  // 從 URL 參數取得 caseId 並渲染
+  var params = new URLSearchParams(location.search);
+  var caseId = params.get('caseId');
+  var fromPage = params.get('from') || 'cases';
+
+  if(caseId && typeof renderCaseDetail === 'function'){
+    try { renderCaseDetail(caseId); } catch(e){ console.warn('renderCaseDetail:', e); }
+  }
+
+  // 覆寫 goBackFromCase，依 from 參數決定回哪頁
+  window.goBackFromCase = function(){
+    if(fromPage === 'detail'){
+      var firmId = params.get('firmId');
+      location.href = firmId
+        ? _URLS['detail'] + '?firmId=' + encodeURIComponent(firmId)
+        : _URLS['detail'];
+    } else {
+      location.href = _URLS['cases'];
+    }
+  };
+});
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

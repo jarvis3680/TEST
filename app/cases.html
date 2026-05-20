@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜歷史鑑定案件</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+<link rel="stylesheet" href="../assets/css/industry.css">
+</head>
+<body data-nav-page="cases" data-crumb="歷史鑑定案件" data-root="../">
+
+<div class="content">
+        <div id="page-cases">
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">歷史鑑定案件</h2>
+                <div class="ph-sub">投資審查暨涉及國家核心關鍵技術之歷史鑑定紀錄</div>
+              </div>
+              <div class="ph-tools">
+                <button class="mini-btn">📥 匯出 Excel</button>
+                <button class="mini-btn">📊 統計分析</button>
+              </div>
+            </div>
+            <div class="case-stats-row">
+              <div class="cs-card"><div class="cs-num">142</div><div class="cs-lbl">總案件數</div></div>
+              <div class="cs-card warn"><div class="cs-num">8</div><div class="cs-lbl">涉及關鍵技術案件數</div></div>
+              <div class="cs-card ok"><div class="cs-num">134</div><div class="cs-lbl">不涉及案件數</div></div>
+            </div>
+            <!-- ════════════════════════════════════════════════════════════
+                 v3.3 進階搜尋區（對齊客戶草稿 5 條件 + 操作列）
+                 ════════════════════════════════════════════════════════════ -->
+            <div class="adv-search" id="advSearch">
+              <div class="adv-search-head" onclick="toggleAdvSearch()">
+                <span class="icon">🔍</span>
+                <h4>進階搜尋條件</h4>
+                <span class="meta">已套用：日期 2025/01–2026/04 · 4 項條件</span>
+                <span class="toggle-arr">▼</span>
+              </div>
+
+              <div class="adv-search-body">
+
+                <!-- ── 條件 1:到件日期 ── -->
+                <div class="adv-block-single">
+                  <div class="adv-cell-head">
+                    <span class="num">1</span>到案日期
+                    <span class="hint">年月區間</span>
+                  </div>
+                  <div class="adv-cell-input">
+                    <span style="font-size:11px;color:#94a3b8">自</span>
+                    <select class="adv-select compact" size="1" style="max-height:200px"><option>2026</option><option selected>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option><option>2004</option><option>2003</option><option>2002</option><option>2001</option><option>2000</option></select>
+                    <span style="font-size:11px;color:#94a3b8">/</span>
+                    <select class="adv-select compact"><option selected>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
+                    <span style="font-size:11px;color:#94a3b8">至</span>
+                    <select class="adv-select compact" size="1" style="max-height:200px"><option selected>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option><option>2004</option><option>2003</option><option>2002</option><option>2001</option><option>2000</option></select>
+                    <span style="font-size:11px;color:#94a3b8">/</span>
+                    <select class="adv-select compact"><option>01</option><option>02</option><option>03</option><option selected>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
+                  </div>
+                </div>
+
+                <!-- ── 條件 2:案件來源 ── -->
+                <div class="adv-block-single">
+                  <div class="adv-cell-head">
+                    <span class="num">2</span>案件來源
+                    <span class="hint">對台投資／對外投資</span>
+                  </div>
+                  <div class="adv-cell-input">
+                    <div class="adv-radios">
+                      <span class="adv-radio on" onclick="pickRadio(this)">⊙ 全部</span>
+                      <span class="adv-radio" onclick="pickRadio(this)">來臺投資審核科（1科）</span>
+                      <span class="adv-radio" onclick="pickRadio(this)">對外投資審核科（2科）</span>
+                      <span class="adv-radio" onclick="pickRadio(this)">投資法令及政策科（4科）</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── 條件 3:名稱關鍵字(6 組,每列 3 組 × 2 列)── -->
+                <div class="adv-keywords-block">
+                  <div class="adv-cell-head" style="margin-bottom:8px">
+                    <span class="num">3</span>名稱關鍵字
+                    <span class="hint">投資人、投資事業、中轉公司或個人名稱 — 共 6 組,可選 <b>或/及</b> 邏輯運算</span>
+                  </div>
+                  <div class="adv-keywords-grid">
+
+                    <!-- 第 1 組 -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">1</span>
+                      <select class="kw-type">
+                        <option selected>投資人</option>
+                        <option>投資事業</option>
+                        <option>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…" value="日月光">
+                      <select class="kw-conn"><option selected>或</option><option>及</option></select>
+                    </div>
+
+                    <!-- 第 2 組 -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">2</span>
+                      <select class="kw-type">
+                        <option>投資人</option>
+                        <option selected>投資事業</option>
+                        <option>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…" value="胡志明封裝廠">
+                      <select class="kw-conn"><option>或</option><option selected>及</option></select>
+                    </div>
+
+                    <!-- 第 3 組 -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">3</span>
+                      <select class="kw-type">
+                        <option>投資人</option>
+                        <option>投資事業</option>
+                        <option selected>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…" value="MEDIATEK SINGAPORE">
+                      <select class="kw-conn"><option selected>或</option><option>及</option></select>
+                    </div>
+
+                    <!-- 第 4 組 -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">4</span>
+                      <select class="kw-type">
+                        <option selected>投資人</option>
+                        <option>投資事業</option>
+                        <option>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…">
+                      <select class="kw-conn"><option selected>或</option><option>及</option></select>
+                    </div>
+
+                    <!-- 第 5 組 -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">5</span>
+                      <select class="kw-type">
+                        <option>投資人</option>
+                        <option selected>投資事業</option>
+                        <option>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…">
+                      <select class="kw-conn"><option selected>或</option><option>及</option></select>
+                    </div>
+
+                    <!-- 第 6 組（最末組無連接詞） -->
+                    <div class="adv-kw-group">
+                      <span class="kw-no">6</span>
+                      <select class="kw-type">
+                        <option>投資人</option>
+                        <option>投資事業</option>
+                        <option selected>中轉公司</option>
+                        <option>個人名稱</option>
+                      </select>
+                      <input type="text" class="kw-input" placeholder="輸入名稱…">
+                      <select class="kw-conn" disabled><option>—</option></select>
+                    </div>
+
+                  </div>
+                  <div class="adv-kw-hint">
+                    💡 連接詞「或」「及」之邏輯運算順序：上一欄位 → 下一欄位（依序套用）；最末欄無連接詞
+                  </div>
+                </div>
+
+                <!-- ── 條件 4:鑑定結果(從原條件 5 移上來) ── -->
+                <div class="adv-block-single">
+                  <div class="adv-cell-head">
+                    <span class="num">4</span>鑑定結果
+                    <span class="hint">是否涉及 — 選「是」或「全部」才能勾選下方關鍵技術</span>
+                  </div>
+                  <div class="adv-cell-input">
+                    <div class="adv-radios" id="advResultRadios">
+                      <span class="adv-radio on" onclick="pickRadio(this);advResultChanged('all')">⊙ 全部</span>
+                      <span class="adv-radio" onclick="pickRadio(this);advResultChanged('yes')">是(涉及)</span>
+                      <span class="adv-radio green" onclick="pickRadio(this);advResultChanged('no')">否(不涉及)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── 條件 5:42 項關鍵技術（廠商查詢版 picker）── -->
+                <div class="adv-tech-block" id="advTechBlock">
+                  <div class="adv-cell-head">
+                    <span class="num">5</span>涉及之國家核心關鍵技術
+                    <span class="hint">42 項 · 點擊開啟選擇器</span>
+                  </div>
+                  <div class="adv-tech-area">
+                    <button class="q2-picker-trigger" onclick="casesOpenTechPicker()" style="min-width:200px">
+                      <span>⚠</span>
+                      <span>瀏覽 / 選擇關鍵技術（42 項）</span>
+                      <span class="arr">▼</span>
+                    </button>
+                    <span class="adv-tech-counter">已選 <b id="techCount">0</b> 項:</span>
+                    <div class="adv-tech-chips" id="techChips">
+                    </div>
+                    <button class="adv-tech-clear" onclick="clearAllChips()">清除全部</button>
+                  </div>
+                </div>
+
+                                <!-- ── 操作列 ── -->
+                <div class="adv-actions">
+                  <span class="left-meta">符合條件結果預估 <b>8</b> 筆（共 142 筆案件）</span>
+                  <div class="right-btns">
+                    <button class="btn-clear" onclick="csClearAll()">↻ 清除條件</button>
+                    <button class="btn-search">🔍 套用搜尋</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="case-table-wrap">
+            <table class="case-table">
+              <thead>
+                <tr class="ct-thead-1">
+                  <th rowspan="2">案件編號</th>
+                  <th rowspan="2">到件日期</th>
+                  <th class="ct-th-name-group" colspan="3">案件名稱</th>
+                  <th rowspan="2">案件來源</th>
+                  <th rowspan="2">審查結果</th>
+                  <th rowspan="2">涉及技術項目</th>
+                  <th rowspan="2">內容</th>
+                </tr>
+                <tr class="ct-thead-2">
+                  <th class="ct-th-sub">投資人</th>
+                  <th class="ct-th-sub">投資事業</th>
+                  <th class="ct-th-sub">中轉公司</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="openCaseFromList('11420214810')"><td class="mono">11420214810</td><td>2026-02-09</td><td class="ct-td-investor">圓星科技</td><td class="ct-td-entity">元星智財(上海)</td><td class="ct-td-empty">—</td><td>對外投資 2 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11420214810')">檢視</button></td></tr>
+                <tr onclick="openCaseFromList('11520016150')"><td class="mono">11520016150</td><td>2026-02-10</td><td class="ct-td-investor">聯發科</td><td class="ct-td-entity">鎮江潤晶高純化工</td><td class="ct-td-empty">—</td><td>對外投資 2 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520016150')">檢視</button></td></tr>
+                <tr class="row-warn" onclick="openCaseFromList('11520041200')"><td class="mono">11520041200</td><td>2026-03-15</td><td class="ct-td-investor">群創光電</td><td class="ct-td-entity">SUZHOU CHIMEI 投資</td><td class="ct-td-mid"><div class="fc-mid-list"><div class="fc-mid-row">CHIMEI INTERNATIONAL(HONG KONG)</div><div class="fc-mid-row">CHIMEI ASIA PACIFIC HOLDINGS</div><div class="fc-mid-row">SUZHOU CHIMEI HOLDING CO.</div></div></td><td>對外投資 1 科</td><td><span class="case-result yes">⚠ 是</span></td><td class="ct-td-tech"><div class="fc-tech-list"><div class="fc-tech-item"><span class="fc-tech-code">28</span>低溫半導體晶片電路設計與製程</div><div class="fc-tech-item"><span class="fc-tech-code">35</span>高頻寬密度小晶片互聯電路設計技術</div></div></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520041200')">檢視</button></td></tr>
+                <tr onclick="openCaseFromList('11520038814')"><td class="mono">11520038814</td><td>2026-03-22</td><td class="ct-td-investor">研華</td><td class="ct-td-entity">越南胡志明工業電腦廠</td><td class="ct-td-empty">—</td><td>對外投資 2 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520038814')">檢視</button></td></tr>
+                <tr onclick="openCaseFromList('11520051030')"><td class="mono">11520051030</td><td>2026-04-08</td><td class="ct-td-investor">世界先進</td><td class="ct-td-entity">新加坡 12 吋廠</td><td class="ct-td-empty">—</td><td>對外投資 1 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520051030')">檢視</button></td></tr>
+                <tr class="row-warn" onclick="openCaseFromList('11520067725')"><td class="mono">11520067725</td><td>2026-04-12</td><td class="ct-td-investor">聯華電子</td><td class="ct-td-entity">廈門聯芯整合電路</td><td class="ct-td-empty">—</td><td>對外投資 1 科</td><td><span class="case-result yes">⚠ 是</span></td><td class="ct-td-tech"><div class="fc-tech-list"><div class="fc-tech-item"><span class="fc-tech-code">29</span>14 奈米以下製程之 IC 製造技術</div><div class="fc-tech-item"><span class="fc-tech-code">30</span>異質整合封裝技術</div><div class="fc-tech-item"><span class="fc-tech-code">35</span>高頻寬密度小晶片互聯電路設計技術</div></div></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520067725')">檢視</button></td></tr>
+                <tr onclick="openCaseFromList('11520071204')"><td class="mono">11520071204</td><td>2026-04-18</td><td class="ct-td-investor">日月光投控</td><td class="ct-td-entity">越南胡志明 IC 封測廠擴建</td><td class="ct-td-empty">—</td><td>對外投資 2 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520071204')">檢視</button></td></tr>
+                <tr onclick="openCaseFromList('11520088912')"><td class="mono">11520088912</td><td>2026-04-22</td><td class="ct-td-investor">台積電</td><td class="ct-td-entity">ARIZONA SUBSIDIARY</td><td class="ct-td-empty">—</td><td>對外投資 1 科</td><td><span class="case-result no">否</span></td><td><span class="case-result no">否</span></td><td><button class="ct-detail" onclick="event.stopPropagation();openCaseFromList('11520088912')">檢視</button></td></tr>
+              </tbody>
+            </table>
+            </div>
+            <div class="pagination" style="margin-top:18px">
+              <button class="pg-btn">‹</button><button class="pg-btn on">1</button><button class="pg-btn">2</button><button class="pg-btn">3</button><button class="pg-btn">›</button>
+              <span class="pg-info">共 142 筆，每頁 8 筆</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+<!-- 產業分類 + 關鍵技術選擇器 Modal -->
+        <div class="q2-modal" id="q2IndModal">
+          <div class="q2-modal-bg" onclick="q2CloseIndPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">📁 選擇產業分類（L1~L6）</div>
+                <div class="q2-modal-sub">資料源：工研院產業地圖 2024 · 共 2,057 個節點 · 可同時勾選多個層級的節點</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseIndPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2IndFilter" placeholder="輸入關鍵字過濾節點，例如：IC、半導體、GaN..." oninput="q2FilterIndTree()">
+                <button class="q2-sb-clear" onclick="q2ClearIndFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2IndExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2IndCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2IndPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2IndTreeWrap">
+              <div class="q2-tech-allrow" onclick="q2ToggleAllInd(document.getElementById('q2IndAllCb'))">
+                <input type="checkbox" class="q2-tree-cb-all" id="q2IndAllCb" onclick="event.stopPropagation();q2ToggleAllInd(this)">
+                <span class="q2-tech-all-lbl">☑ 全部選取（一次加入所有節點）</span>
+              </div>
+              <div id="q2IndTree">
+              <!-- 由 JS 渲染 -->
+              </div><!-- #q2IndTree -->
+            </div><!-- #q2IndTreeWrap -->
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2IndClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2IndApply()">✓ 套用 (<span id="q2IndApplyCnt">0</span>)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="q2-modal" id="q2TechModal">
+          <div class="q2-modal-bg" onclick="q2CloseTechPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">⚠ 選擇涉及之關鍵技術（42 項）</div>
+                <div class="q2-modal-sub">資料源:國家核心關鍵技術 · 5 部會公告 2025/11/24 · 5 主管機關共 42 項</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseTechPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2TechFilter" placeholder="輸入關鍵字過濾，例如：AI、Chiplet、SiC、衛星..." oninput="q2FilterTechTree()">
+                <button class="q2-sb-clear" onclick="q2ClearTechFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2TechExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2TechCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2TechPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2TechTree">
+              <!-- 由 JS 渲染 -->
+            </div>
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2TechClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2TechApply()">✓ 套用 (<span id="q2TechApplyCnt">0</span>)</button>
+            </div>
+          </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/industry.js"></script>
+<script src="../assets/js/tech.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+
+/* ── 清除所有搜尋條件 ── */
+function csClearAll() {
+  // 1. 日期：重設為預設值（全部選回第一個 selected）
+  document.querySelectorAll('.adv-select').forEach(function(sel) {
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].defaultSelected) { sel.selectedIndex = i; break; }
+    }
+  });
+  // 2. radio 按鈕：全部選「全部」
+  document.querySelectorAll('.adv-radios').forEach(function(g) {
+    g.querySelectorAll('.adv-radio').forEach(function(r, i) {
+      if (i === 0) { r.classList.add('on'); r.textContent = '⊙ 全部'; }
+      else { r.classList.remove('on'); if (r.textContent.startsWith('⊙ ')) r.textContent = r.textContent.slice(2); }
+    });
+  });
+  // 3. 名稱關鍵字：清空所有 input
+  document.querySelectorAll('.adv-kw-input').forEach(function(el) { el.value = ''; });
+  // 4. 技術晶片：清空
+  var chips = document.getElementById('techChips');
+  if (chips) chips.innerHTML = '';
+  var cnt = document.getElementById('techCount');
+  if (cnt) cnt.textContent = '0';
+  // 5. 重新啟用條件5（鑑定結果回到全部後需解鎖）
+  if (typeof advResultChanged === 'function') advResultChanged('all');
+}
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(id==='case-detail'&&state&&state.caseId){
+    location.href=_URLS['case-detail']+'?caseId='+encodeURIComponent(state.caseId)+'&from='+(state.from||'cases');return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  
+  
+});
+
+// 覆寫 openCaseFromList：傳 caseId 到 case-detail.html
+window.openCaseFromList = function(caseId) {
+  location.href = _URLS['case-detail']
+    + '?caseId=' + encodeURIComponent(caseId)
+    + '&from=cases';
+};
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

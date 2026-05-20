@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜集團架構管理</title>
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/shared.css">
+<link rel="stylesheet" href="../assets/css/detail.css">
+<link rel="stylesheet" href="../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../assets/css/query.css">
+<link rel="stylesheet" href="../assets/css/industry.css">
+</head>
+<body data-nav-page="orgmgr" data-crumb="集團架構管理" data-root="../">
+
+<div class="content">
+        <div id="page-orgmgr">
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">集團架構管理</h2>
+                <div class="ph-sub">管理 <code>ORG_Company</code> / <code>ORG_CompanyRelation</code> 主檔資料 ─ 母子公司、控股鏈與海外實體</div>
+              </div>
+              <div class="ph-tools">
+                <button class="mini-btn">📤 批次匯入 CSV</button>
+                <button class="mini-btn">⚙️ 同步 MOPS</button>
+                <button class="mini-btn primary-btn" onclick="openOrgModal('mAdd')">＋ 新增關聯</button>
+              </div>
+            </div>
+
+            <!-- 資料來源狀態列 -->
+            <div class="om-source-bar">
+              <div class="om-src-item ok">
+                <div class="om-src-i">①</div>
+                <div class="om-src-t">
+                  <b>商業司主檔</b>
+                  <span>3,017 家 · 最後同步 2026/04/28 03:00</span>
+                </div>
+                <span class="om-src-state">✓ 同步中</span>
+              </div>
+              <div class="om-src-item ok">
+                <div class="om-src-i">②</div>
+                <div class="om-src-t">
+                  <b>公開資訊觀測站</b>
+                  <span>1,742 筆關聯 · 每季同步 · 2026Q1</span>
+                </div>
+                <span class="om-src-state">✓ 同步中</span>
+              </div>
+              <div class="om-src-item ok">
+                <div class="om-src-i">③</div>
+                <div class="om-src-t">
+                  <b>投審案件回填</b>
+                  <span>142 件已建關聯 · 自動觸發</span>
+                </div>
+                <span class="om-src-state">✓ 自動</span>
+              </div>
+              <div class="om-src-item warn">
+                <div class="om-src-i">④</div>
+                <div class="om-src-t">
+                  <b>人工建檔</b>
+                  <span>286 筆海外實體 · 待補 12 筆</span>
+                </div>
+                <span class="om-src-state">⚠ 待補件</span>
+              </div>
+            </div>
+
+            <div class="om-stats">
+              <div class="om-st"><div class="om-st-num">3,017</div><div class="om-st-lbl">公司主檔</div></div>
+              <div class="om-st"><div class="om-st-num">2,170</div><div class="om-st-lbl">已建立關聯</div></div>
+              <div class="om-st"><div class="om-st-num">847</div><div class="om-st-lbl">獨立廠商（無集團）</div></div>
+              <div class="om-st warn"><div class="om-st-num">486</div><div class="om-st-lbl">海外實體</div></div>
+              <div class="om-st warn"><div class="om-st-num">12</div><div class="om-st-lbl">待補件警示</div></div>
+              <div class="om-st"><div class="om-st-num">23</div><div class="om-st-lbl">本月變更</div></div>
+            </div>
+
+            <!-- 主操作區：左 公司選擇器 / 右 關聯管理 -->
+            <div class="om-main">
+
+              <!-- 左：公司搜尋 + 列表 -->
+              <div class="om-side">
+                <div class="om-search">
+                  <input type="text" placeholder="輸入公司名 / 統編 / 集團名稱..." class="cf-inp" style="width:100%">
+                </div>
+                <div class="om-filter">
+                  <label><input type="checkbox" checked> 含關聯</label>
+                  <label><input type="checkbox"> 無關聯</label>
+                  <label><input type="checkbox"> 海外</label>
+                  <label><input type="checkbox"> 待補件</label>
+                </div>
+                <div class="om-list">
+                  <div class="om-li active">
+                    <div class="om-li-name">日月光半導體製造</div>
+                    <div class="om-li-meta"><span class="mono">76027628</span> · 5 子 1 父 · ⚠</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">日月光投資控股</div>
+                    <div class="om-li-meta"><span class="mono">03245678</span> · 6 子 0 父</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">矽品精密工業</div>
+                    <div class="om-li-meta"><span class="mono">22520447</span> · 3 子 1 父 · ⚠</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">ASE Test Holdings (Cayman)</div>
+                    <div class="om-li-meta">海外 · 開曼群島 · 2 子 1 父</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">ASE Vietnam</div>
+                    <div class="om-li-meta">海外 · 越南 · 0 子 1 父</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">日月光（上海）封裝</div>
+                    <div class="om-li-meta">海外 · 中國大陸 · 0 子 1 父</div>
+                  </div>
+                  <div class="om-li">
+                    <div class="om-li-name">日月光福懋通信</div>
+                    <div class="om-li-meta"><span class="mono">89441120</span> · 0 子 1 父</div>
+                  </div>
+                  <div class="om-li warn">
+                    <div class="om-li-name">ASE Korea Holdings</div>
+                    <div class="om-li-meta">海外 · 南韓 · ⚠ 待補關聯</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右：被選中的公司關聯詳細 -->
+              <div class="om-detail">
+
+                <!-- 標題列 -->
+                <div class="om-d-head">
+                  <div class="om-d-title">
+                    <h3>日月光半導體製造股份有限公司</h3>
+                    <div class="om-d-meta">
+                      統編 <span class="mono">76027628</span> · 上市 (2311) · 國內 · 高雄市楠梓區
+                    </div>
+                  </div>
+                  <div class="om-d-tools">
+                    <button class="mini-btn" onclick="openOrgModal('mEdit')">📋 編輯主檔</button>
+                    <button class="mini-btn primary-btn" onclick="openOrgModal('mAdd')">＋ 新增關聯</button>
+                  </div>
+                </div>
+
+                <!-- 三層關聯：父 / 平行 / 子 -->
+                <div class="rel-block">
+                  <div class="rel-block-title">▲ 父方關聯（被持股）<span class="rel-cnt">1 筆</span></div>
+                  <div class="tbl-wrap">
+                  <table class="rel-table">
+                    <thead>
+                      <tr><th>父公司</th><th>類型</th><th>持股 %</th><th>生效日</th><th>來源</th><th>標記</th><th>操作</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>日月光投資控股</b><br><span class="rel-sub mono">03245678 · 國內</span></td>
+                        <td><span class="rel-tag rt-1">控股 (>50%)</span></td>
+                        <td class="mono">100.00</td>
+                        <td class="mono">2018-04-30</td>
+                        <td><span class="src src-mops">MOPS</span></td>
+                        <td>—</td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+
+                <div class="rel-block">
+                  <div class="rel-block-title">▼ 子方關聯（投資 / 控股）<span class="rel-cnt">5 筆</span></div>
+                  <div class="tbl-wrap">
+                  <table class="rel-table">
+                    <thead>
+                      <tr><th>子公司</th><th>類型</th><th>持股 %</th><th>生效日</th><th>來源</th><th>標記</th><th>操作</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>矽品精密工業</b><br><span class="rel-sub mono">22520447 · 國內</span></td>
+                        <td><span class="rel-tag rt-1">控股</span></td>
+                        <td class="mono">100.00</td>
+                        <td class="mono">2018-04-30</td>
+                        <td><span class="src src-mops">MOPS</span></td>
+                        <td>—</td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                      <tr>
+                        <td><b>日月光福懋通信</b><br><span class="rel-sub mono">89441120 · 國內</span></td>
+                        <td><span class="rel-tag rt-1">控股</span></td>
+                        <td class="mono">75.00</td>
+                        <td class="mono">2010-08-15</td>
+                        <td><span class="src src-com">商業司</span></td>
+                        <td>—</td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                      <tr class="row-warn">
+                        <td><b>ASE Test Holdings (Cayman)</b><br><span class="rel-sub">海外 · 開曼群島</span></td>
+                        <td><span class="rel-tag rt-4">海外控股</span></td>
+                        <td class="mono">100.00</td>
+                        <td class="mono">2015-06-01</td>
+                        <td><span class="src src-case">投審 11420041220</span></td>
+                        <td><span class="risk-mark">⚠ 需注意</span></td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                      <tr>
+                        <td><b>日月光（上海）封裝</b><br><span class="rel-sub">海外 · 中國大陸</span></td>
+                        <td><span class="rel-tag rt-4">海外控股</span></td>
+                        <td class="mono">100.00</td>
+                        <td class="mono">2003-11-12</td>
+                        <td><span class="src src-case">投審 09220184550</span></td>
+                        <td>—</td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                      <tr>
+                        <td><b>ASE Vietnam</b><br><span class="rel-sub">海外 · 越南</span></td>
+                        <td><span class="rel-tag rt-4">海外控股</span></td>
+                        <td class="mono">100.00</td>
+                        <td class="mono">2021-03-08</td>
+                        <td><span class="src src-case">投審 11020087412</span></td>
+                        <td>—</td>
+                        <td><button class="mini-btn">編輯</button> <button class="mini-btn">解除</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+
+                <!-- 關聯類型參考 -->
+                <div class="rel-typedef">
+                  <span class="rel-tag rt-1">控股 (>50%)</span>
+                  <span class="rel-tag rt-2">合營 (20-50%)</span>
+                  <span class="rel-tag rt-3">投資 (<20%)</span>
+                  <span class="rel-tag rt-4">海外控股</span>
+                  <span class="rel-tag rt-5">聯營 / 策略</span>
+                </div>
+
+                <!-- 變更歷程 -->
+                <div class="rel-block" style="margin-top:18px">
+                  <div class="rel-block-title">📝 變更歷程<span class="rel-cnt">最近 4 筆</span></div>
+                  <div class="tbl-wrap">
+                  <table class="hist-table">
+                    <thead><tr><th>時間</th><th>操作</th><th>對象</th><th>變更內容</th><th>操作人 / 來源</th></tr></thead>
+                    <tbody>
+                      <tr><td class="mono">2026-04-22</td><td><span class="op-add">新增</span></td><td>ASE Vietnam (子)</td><td>持股 100% · 海外控股</td><td>系統 (投審 11020087412 核准)</td></tr>
+                      <tr><td class="mono">2026-03-15</td><td><span class="op-edit">修改</span></td><td>日月光福懋通信 (子)</td><td>持股 70.00% → 75.00%</td><td>陳大文 · MOPS 同步</td></tr>
+                      <tr><td class="mono">2025-12-08</td><td><span class="op-flag">標記</span></td><td>ASE Test Holdings (Cayman)</td><td>新增「需注意」風險旗標</td><td>王玉姍</td></tr>
+                      <tr><td class="mono">2025-09-22</td><td><span class="op-add">新增</span></td><td>越南封裝廠 (子)</td><td>初始建檔</td><td>陳大文 · 人工</td></tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ============== Modal A：編輯主檔 ============== -->
+            <div class="org-modal" id="orgmodal-mEdit" style="display:none">
+              <div class="om-overlay" onclick="closeOrgModal('mEdit')"></div>
+              <div class="om-dialog wide">
+                <div class="om-dlg-head">
+                  <div class="om-dlg-title">
+                    <span class="om-dlg-icon">📋</span>
+                    <div>
+                      <h3>編輯公司主檔</h3>
+                      <div class="om-dlg-sub">日月光半導體製造股份有限公司 · 統編 76027628</div>
+                    </div>
+                  </div>
+                  <button class="om-close" onclick="closeOrgModal('mEdit')">×</button>
+                </div>
+
+                <!-- 主檔頁籤 -->
+                <div class="om-mtabs">
+                  <button class="om-mtab on" onclick="switchOmTab(event,'mt-base')">基本資料</button>
+                  <button class="om-mtab" onclick="switchOmTab(event,'mt-attr')">屬性與標籤</button>
+                  <button class="om-mtab" onclick="switchOmTab(event,'mt-biz')">業務資料</button>
+                  <button class="om-mtab" onclick="switchOmTab(event,'mt-contact')">通訊資訊</button>
+                  <button class="om-mtab" onclick="switchOmTab(event,'mt-sync')">同步紀錄</button>
+                </div>
+
+                <div class="om-dlg-body">
+
+                  <!-- 基本資料 -->
+                  <div class="om-pane on" id="mt-base">
+                    <div class="om-row-2">
+                      <div class="fld">
+                        <label>統一編號 <span class="req">*</span></label>
+                        <div class="fld-locked">
+                          <input type="text" class="cf-inp" value="76027628" readonly>
+                          <span class="fld-lock">🔒 系統鎖定</span>
+                        </div>
+                        <span class="fld-hint">PK 欄位，建檔後不可修改</span>
+                      </div>
+                      <div class="fld">
+                        <label>海外註冊號</label>
+                        <input type="text" class="cf-inp" placeholder="海外公司專用">
+                        <span class="fld-hint">海外實體填寫，國內公司請留空</span>
+                      </div>
+                      <div class="fld">
+                        <label>公司名稱（中）<span class="req">*</span></label>
+                        <input type="text" class="cf-inp" value="日月光半導體製造股份有限公司">
+                      </div>
+                      <div class="fld">
+                        <label>公司名稱（英）</label>
+                        <input type="text" class="cf-inp" value="ASE Semiconductor (Kaohsiung) Inc.">
+                      </div>
+                      <div class="fld">
+                        <label>設立日期 <span class="req">*</span></label>
+                        <input type="date" class="cf-inp" value="1984-03-01">
+                      </div>
+                      <div class="fld">
+                        <label>解散 / 終止日期</label>
+                        <input type="date" class="cf-inp">
+                        <span class="fld-hint">營業中可留空</span>
+                      </div>
+                      <div class="fld">
+                        <label>公司狀態 <span class="req">*</span></label>
+                        <select class="cf-sel">
+                          <option selected>1 ─ 營業中</option>
+                          <option>2 ─ 解散</option>
+                          <option>3 ─ 停業</option>
+                          <option>4 ─ 廢止</option>
+                          <option>5 ─ 撤銷</option>
+                        </select>
+                      </div>
+                      <div class="fld">
+                        <label>是否海外實體 <span class="req">*</span></label>
+                        <div class="fld-radio">
+                          <label><input type="radio" name="oversea"> 是</label>
+                          <label><input type="radio" name="oversea" checked> 否（國內）</label>
+                        </div>
+                      </div>
+                      <div class="fld">
+                        <label>國家代碼 <span class="req">*</span></label>
+                        <select class="cf-sel">
+                          <option selected>TW ─ 中華民國 (台灣)</option>
+                          <option>CN ─ 中國大陸</option>
+                          <option>HK ─ 香港</option>
+                          <option>KY ─ 開曼群島</option>
+                          <option>VG ─ 英屬維京群島</option>
+                          <option>VN ─ 越南</option>
+                          <option>US ─ 美國</option>
+                          <option>SG ─ 新加坡</option>
+                          <option>JP ─ 日本</option>
+                          <option>KR ─ 南韓</option>
+                          <option>──</option>
+                        </select>
+                      </div>
+                      <div class="fld">
+                        <label>是否上市櫃</label>
+                        <div class="fld-radio">
+                          <label><input type="radio" name="listed" checked> 上市</label>
+                          <label><input type="radio" name="listed"> 上櫃</label>
+                          <label><input type="radio" name="listed"> 興櫃</label>
+                          <label><input type="radio" name="listed"> 未上市</label>
+                        </div>
+                      </div>
+                      <div class="fld">
+                        <label>證券代號</label>
+                        <input type="text" class="cf-inp mono" value="2311">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 屬性與標籤 -->
+                  <div class="om-pane" id="mt-attr" style="display:none">
+                    <div class="fld-section-title">⚠ 風險與監管旗標</div>
+                    <div class="om-row-2">
+                      <div class="fld">
+                        <label>風險旗標</label>
+                        <label class="fld-cb"><input type="checkbox"> 標記為「需注意」</label>
+                        <span class="fld-hint">海外控股 / 受監管 / 涉中資 等情況</span>
+                      </div>
+                      <div class="fld">
+                        <label>受監管標記</label>
+                        <select class="cf-sel">
+                          <option>無</option>
+                          <option>陸資 §73 規範</option>
+                          <option>美國實體清單 (Entity List)</option>
+                          <option>歐盟雙重用途清單</option>
+                          <option>OFAC 制裁清單</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="fld-section-title">🏷 自訂標籤</div>
+                    <div class="tag-field">
+                      <span class="tag-pill">大型集團</span>
+                      <span class="tag-pill">封測產業龍頭</span>
+                      <span class="tag-pill">國家級廠商</span>
+                      <input type="text" class="tag-input" placeholder="輸入新標籤後按 Enter...">
+                    </div>
+                    <div class="fld-section-title">🔬 關鍵技術涉及（系統自動計算）</div>
+                    <div class="auto-flag">
+                      <div class="af-row">
+                        <span class="af-l">涉及項數</span>
+                        <span class="af-r warn"><b>5 項</b></span>
+                      </div>
+                      <div class="af-row">
+                        <span class="af-l">涉及編號</span>
+                        <span class="af-r"><span class="mtag">30</span><span class="mtag">31</span><span class="mtag">33</span><span class="mtag">34</span><span class="mtag">35</span></span>
+                      </div>
+                      <div class="af-row">
+                        <span class="af-l">風險等級</span>
+                        <span class="af-r warn"><b>嚴重</b></span>
+                      </div>
+                      <div class="af-row">
+                        <span class="af-l">最後評估</span>
+                        <span class="af-r mono">2026/01/15 03:24:18 系統自動</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 業務資料 -->
+                  <div class="om-pane" id="mt-biz" style="display:none">
+                    <div class="om-row-2">
+                      <div class="fld"><label>代表人</label><input type="text" class="cf-inp" value="張虔生"></div>
+                      <div class="fld"><label>員工數</label><input type="number" class="cf-inp" value="32465"></div>
+                      <div class="fld"><label>資本額（元）</label><input type="text" class="cf-inp mono" value="95,000,000,000"></div>
+                      <div class="fld"><label>實收資本（元）</label><input type="text" class="cf-inp mono" value="86,400,000,000"></div>
+                    </div>
+                    <div class="fld-section-title">營業項目代碼</div>
+                    <div class="biz-list">
+                      <div class="biz-item">
+                        <span class="biz-code">CC01080</span>
+                        <span>電子零組件製造業</span>
+                        <span class="biz-flag">主</span>
+                        <button class="biz-del">×</button>
+                      </div>
+                      <div class="biz-item">
+                        <span class="biz-code">F401010</span>
+                        <span>國際貿易業</span>
+                        <button class="biz-del">×</button>
+                      </div>
+                      <div class="biz-item">
+                        <span class="biz-code">CC01101</span>
+                        <span>電池製造業</span>
+                        <button class="biz-del">×</button>
+                      </div>
+                      <div class="biz-item">
+                        <span class="biz-code">CC01990</span>
+                        <span>其他電子零組件製造業</span>
+                        <button class="biz-del">×</button>
+                      </div>
+                      <button class="biz-add">＋ 新增營業項目</button>
+                    </div>
+                    <div class="fld-section-title">主力產品</div>
+                    <div class="tag-field">
+                      <span class="tag-pill">SiP 系統級封裝</span>
+                      <span class="tag-pill">CoWoS 異質整合</span>
+                      <span class="tag-pill">FCBGA / FCCSP</span>
+                      <span class="tag-pill">TSV 矽穿孔</span>
+                      <input type="text" class="tag-input" placeholder="輸入新產品...">
+                    </div>
+                  </div>
+
+                  <!-- 通訊資訊 -->
+                  <div class="om-pane" id="mt-contact" style="display:none">
+                    <div class="om-row-2">
+                      <div class="fld span2"><label>登記地址</label><input type="text" class="cf-inp" value="高雄市楠梓區加昌路 600 號"></div>
+                      <div class="fld"><label>聯絡電話</label><input type="text" class="cf-inp" value="07-3617131"></div>
+                      <div class="fld"><label>傳真</label><input type="text" class="cf-inp" value="07-3617193"></div>
+                      <div class="fld"><label>電子郵件</label><input type="email" class="cf-inp" placeholder="ir@company.com"></div>
+                      <div class="fld"><label>官方網站</label><input type="url" class="cf-inp" value="https://www.aseglobal.com"></div>
+                    </div>
+                    <div class="ext-link">
+                      <span class="el-l">🔗 外部連結</span>
+                      <a href="#">商業司 ›</a>
+                      <a href="#">公開資訊觀測站 ›</a>
+                      <a href="#">證交所 ›</a>
+                    </div>
+                  </div>
+
+                  <!-- 同步紀錄 -->
+                  <div class="om-pane" id="mt-sync" style="display:none">
+                    <div class="sync-bar">
+                      <div class="sync-item">
+                        <span class="si-l">商業司同步</span>
+                        <span class="si-r">2026-04-28 03:00:12 ✓</span>
+                      </div>
+                      <div class="sync-item">
+                        <span class="si-l">公開資訊觀測站</span>
+                        <span class="si-r">2026-Q1 ✓</span>
+                      </div>
+                      <div class="sync-item">
+                        <span class="si-l">產業地圖（工研院）</span>
+                        <span class="si-r">2024 版本</span>
+                      </div>
+                      <div class="sync-item">
+                        <span class="si-l">關鍵技術清單</span>
+                        <span class="si-r">114-11-24 公告版本</span>
+                      </div>
+                    </div>
+                    <div class="fld-section-title">📝 主檔變更歷程（此公司）</div>
+                    <div class="tbl-wrap">
+                    <table class="hist-table">
+                      <thead><tr><th>時間</th><th>欄位</th><th>變更前</th><th>變更後</th><th>來源</th><th>操作人</th></tr></thead>
+                      <tbody>
+                        <tr><td class="mono">2026-04-28</td><td>實收資本</td><td class="mono">85,400,000,000</td><td class="mono">86,400,000,000</td><td><span class="src src-com">商業司</span></td><td>系統</td></tr>
+                        <tr><td class="mono">2026-03-15</td><td>員工數</td><td class="mono">31,892</td><td class="mono">32,465</td><td><span class="src src-mops">MOPS</span></td><td>系統</td></tr>
+                        <tr><td class="mono">2025-12-08</td><td>主力產品</td><td>新增「CoWoS 異質整合」</td><td>—</td><td><span class="src src-manual">人工</span></td><td>王玉姍</td></tr>
+                        <tr><td class="mono">2025-09-22</td><td>標籤</td><td>—</td><td>新增「國家級廠商」</td><td><span class="src src-manual">人工</span></td><td>陳大文</td></tr>
+                      </tbody>
+                    </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="om-dlg-foot">
+                  <div class="foot-left">
+                    <span class="warn-text">⚠ 變更將即時寫入稽核日誌（ORG_AuditLog）</span>
+                  </div>
+                  <div class="foot-right">
+                    <button class="mini-btn" onclick="closeOrgModal('mEdit')">取消</button>
+                    <button class="mini-btn">⟳ 強制同步</button>
+                    <button class="mini-btn primary-btn" onclick="saveOrgModal('mEdit')">儲存變更</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============== Modal B：新增關聯 ============== -->
+            <div class="org-modal" id="orgmodal-mAdd" style="display:none">
+              <div class="om-overlay" onclick="closeOrgModal('mAdd')"></div>
+              <div class="om-dialog">
+                <div class="om-dlg-head">
+                  <div class="om-dlg-title">
+                    <span class="om-dlg-icon">＋</span>
+                    <div>
+                      <h3>新增公司關聯</h3>
+                      <div class="om-dlg-sub">建立 <code>ORG_CompanyRelation</code> 一筆記錄</div>
+                    </div>
+                  </div>
+                  <button class="om-close" onclick="closeOrgModal('mAdd')">×</button>
+                </div>
+
+                <div class="om-dlg-body">
+
+                  <!-- 步驟提示 -->
+                  <div class="step-bar">
+                    <div class="step on"><span class="st-no">1</span><span>選擇公司</span></div>
+                    <div class="step-arr">›</div>
+                    <div class="step on"><span class="st-no">2</span><span>定義關係</span></div>
+                    <div class="step-arr">›</div>
+                    <div class="step on"><span class="st-no">3</span><span>來源與屬性</span></div>
+                    <div class="step-arr">›</div>
+                    <div class="step"><span class="st-no">4</span><span>衝突檢核</span></div>
+                  </div>
+
+                  <!-- 1. 父子方向 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">① 選擇關聯方向</div>
+                    <div class="dir-choice">
+                      <label class="dir-card on">
+                        <input type="radio" name="dir" checked>
+                        <div class="dir-flow">
+                          <div class="dir-node fixed">日月光半導體製造</div>
+                          <div class="dir-arr">▼</div>
+                          <div class="dir-node empty">子公司（待選）</div>
+                        </div>
+                        <div class="dir-lbl">當前公司是「父」（投資出去）</div>
+                      </label>
+                      <label class="dir-card">
+                        <input type="radio" name="dir">
+                        <div class="dir-flow">
+                          <div class="dir-node empty">父公司（待選）</div>
+                          <div class="dir-arr">▼</div>
+                          <div class="dir-node fixed">日月光半導體製造</div>
+                        </div>
+                        <div class="dir-lbl">當前公司是「子」（被投資）</div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- 2. 對方公司 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">② 對方公司 <span class="req">*</span></div>
+                    <div class="rel-search-box">
+                      <input type="text" class="cf-inp big" placeholder="輸入公司名稱、統編或海外註冊號搜尋...">
+                      <div class="rel-search-results">
+                        <div class="rsr-item">
+                          <div class="rsr-name">ASE Korea Holdings</div>
+                          <div class="rsr-meta">海外 · 南韓 · 建檔但無關聯</div>
+                          <span class="rsr-pick">選此</span>
+                        </div>
+                        <div class="rsr-item">
+                          <div class="rsr-name">ASE Japan Holdings KK</div>
+                          <div class="rsr-meta">海外 · 日本 · 已存在</div>
+                          <span class="rsr-pick">選此</span>
+                        </div>
+                        <div class="rsr-item rsr-new">
+                          <div class="rsr-name">＋ 找不到？建立新公司</div>
+                          <div class="rsr-meta">同步開啟「公司主檔」表單建檔</div>
+                          <span class="rsr-pick">建檔</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. 關聯類型 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">③ 關聯類型 <span class="req">*</span></div>
+                    <div class="type-choice">
+                      <label class="tc-card">
+                        <input type="radio" name="rtype">
+                        <span class="tc-tag rt-1">控股</span>
+                        <span class="tc-rng">{'>'}50%</span>
+                      </label>
+                      <label class="tc-card">
+                        <input type="radio" name="rtype">
+                        <span class="tc-tag rt-2">合營</span>
+                        <span class="tc-rng">20-50%</span>
+                      </label>
+                      <label class="tc-card">
+                        <input type="radio" name="rtype">
+                        <span class="tc-tag rt-3">投資</span>
+                        <span class="tc-rng">{'<'}20%</span>
+                      </label>
+                      <label class="tc-card on">
+                        <input type="radio" name="rtype" checked>
+                        <span class="tc-tag rt-4">海外控股</span>
+                        <span class="tc-rng">註冊地非台灣</span>
+                      </label>
+                      <label class="tc-card">
+                        <input type="radio" name="rtype">
+                        <span class="tc-tag rt-5">聯營</span>
+                        <span class="tc-rng">策略合作</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- 4. 詳細資料 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">④ 持股與時程</div>
+                    <div class="om-row-3">
+                      <div class="fld">
+                        <label>持股 % <span class="req">*</span></label>
+                        <input type="number" class="cf-inp" placeholder="0.00 – 100.00" step="0.01" min="0" max="100">
+                      </div>
+                      <div class="fld">
+                        <label>生效日 <span class="req">*</span></label>
+                        <input type="date" class="cf-inp">
+                      </div>
+                      <div class="fld">
+                        <label>結束日</label>
+                        <input type="date" class="cf-inp">
+                        <span class="fld-hint">仍有效請留空</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 5. 來源 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">⑤ 資料來源 <span class="req">*</span></div>
+                    <div class="src-choice">
+                      <label class="src-card"><input type="radio" name="src"><span class="src src-com">商業司</span><span class="sc-d">國內公司主檔</span></label>
+                      <label class="src-card"><input type="radio" name="src"><span class="src src-mops">MOPS</span><span class="sc-d">公開資訊觀測站揭露</span></label>
+                      <label class="src-card on"><input type="radio" name="src" checked><span class="src src-case">投審案件</span><span class="sc-d">本系統內案件回填</span></label>
+                      <label class="src-card"><input type="radio" name="src"><span class="src src-manual">人工建檔</span><span class="sc-d">承辦人手動補充</span></label>
+                      <label class="src-card"><input type="radio" name="src"><span class="src" style="background:#f1f5f9;color:#475569">年報</span><span class="sc-d">公司年報補登</span></label>
+                    </div>
+                    <div class="om-row-2" style="margin-top:10px">
+                      <div class="fld">
+                        <label>來源案號 / 公告編號 <span class="req">*</span></label>
+                        <input type="text" class="cf-inp mono" placeholder="例：11520087412">
+                        <span class="fld-hint">投審案件來源時必填</span>
+                      </div>
+                      <div class="fld">
+                        <label>📎 連結投審案件</label>
+                        <button class="mini-btn">🔍 搜尋並連結案件</button>
+                        <span class="fld-hint">建立後此關聯可從案件頁追溯</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 6. 風險旗標 + 備註 -->
+                  <div class="rl-section">
+                    <div class="fld-section-title">⑥ 屬性與備註</div>
+                    <div class="om-row-1">
+                      <div class="fld">
+                        <label>風險旗標</label>
+                        <label class="fld-cb"><input type="checkbox"> 此關聯標記為「⚠ 需注意」（顯示於事業群圖紅色虛線框）</label>
+                        <span class="fld-hint">建議勾選情況：開曼/BVI 等避稅天堂、受美國實體清單管控、陸資代持嫌疑</span>
+                      </div>
+                      <div class="fld">
+                        <label>備註說明</label>
+                        <textarea class="cf-inp" rows="3" placeholder="例：透過第三地 SPV 結構，符合外資轉投資架構..."></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 衝突檢核 -->
+                  <div class="conflict-box ok">
+                    <div class="cb-icon">✓</div>
+                    <div class="cb-text">
+                      <b>衝突檢核通過</b>
+                      <span>已檢查持股總和、循環引用、時間重疊 ─ 此關聯可建立</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="om-dlg-foot">
+                  <div class="foot-left">
+                    <span class="warn-text">⚠ 將寫入 <code>ORG_CompanyRelation</code> + <code>ORG_RelationHistory</code></span>
+                  </div>
+                  <div class="foot-right">
+                    <button class="mini-btn" onclick="closeOrgModal('mAdd')">取消</button>
+                    <button class="mini-btn">儲存並繼續新增</button>
+                    <button class="mini-btn primary-btn" onclick="saveOrgModal('mAdd')">儲存並關閉</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "dash.html", "query2": "query.html", "detail": "firm-detail.html", "cases": "cases.html", "case-detail": "case-detail.html", "industry": "industry.html", "tech": "tech.html", "audit": "audit.html", "adm-users": "admin/users.html", "settings": "admin/settings.html", "adm-firm": "admin/firm.html", "adm-industry": "admin/industry.html", "adm-tech": "admin/tech.html", "adm-case": "admin/cases.html", "orgmgr": "orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  
+  
+});
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

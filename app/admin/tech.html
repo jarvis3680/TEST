@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜關鍵技術管理</title>
+<link rel="stylesheet" href="../../assets/css/layout.css">
+<link rel="stylesheet" href="../../assets/css/shared.css">
+<link rel="stylesheet" href="../../assets/css/detail.css">
+<link rel="stylesheet" href="../../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../../assets/css/query.css">
+</head>
+<body data-nav-page="adm-tech" data-crumb="關鍵技術管理" data-root="../../">
+
+<div class="content">
+        <div id="page-adm-tech">
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">關鍵技術管理</h2>
+                <div class="ph-sub">三級資料結構:<b style="color:#0f2347">5</b> 主管機關 → <b style="color:#0f2347">42</b> 項關鍵技術 → <b style="color:#0f2347">192</b> 個技術架構</div>
+              </div>
+              <div class="ph-tools">
+                <button class="adm-action-btn">📥 匯入 Excel</button>
+                <button class="adm-action-btn">📤 匯出 Excel</button>
+              </div>
+            </div>
+
+            <!-- 兩 tab 切換：類別管理 vs 技術項管理 -->
+            <div class="adm-page-tabs">
+              <button class="adm-page-tab active" data-tab="cat" onclick="admTechPageTab('cat')">
+                <span class="adm-page-tab-num">L1</span>
+                類別管理
+                <span class="adm-page-tab-cnt">5</span>
+              </button>
+              <button class="adm-page-tab" data-tab="item" onclick="admTechPageTab('item')">
+                <span class="adm-page-tab-num">L2</span>
+                技術項管理
+                <span class="adm-page-tab-cnt">42</span>
+              </button>
+              <span class="adm-page-tab-hint">L3 技術架構於「技術項」編輯時管理</span>
+            </div>
+
+            <!-- ═════ Tab 1: 類別管理（L1）═════ -->
+            <div class="adm-page-pane active" data-pane="cat">
+              <div class="adm-toolbar">
+                <div class="adm-search">
+                  <span class="adm-search-icon">🔍</span>
+                  <input type="text" placeholder="搜尋類別名稱、主管機關...">
+                </div>
+                <select class="adm-filter">
+                  <option>主管機關：全部</option>
+                  <option>國防部</option>
+                  <option>國科會</option>
+                  <option>經濟部</option>
+                  <option>數位發展部</option>
+                  <option>農業部</option>
+                </select>
+                <div class="adm-tool-spacer"></div>
+                <button class="adm-add-btn" onclick="admOpenModal('cat')">＋ 新增類別</button>
+              </div>
+
+              <div class="adm-table-wrap">
+                <table class="adm-table">
+                  <thead>
+                    <tr>
+                      <th class="col-seq">#</th>
+                      <th class="col-order">排序</th>
+                      <th>類別代碼</th>
+                      <th>類別名稱</th>
+                      <th>技術範圍</th>
+                      <th>顯示色</th>
+                      <th>主管機關</th>
+                      <th>技術數</th>
+                      <th>狀態</th>
+                      <th class="col-action">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="col-seq">1</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="1"></td>
+                      <td class="col-mono">DEF</td>
+                      <td>國防部</td>
+                      <td class="col-mono">技術 1–14</td>
+                      <td><span class="adm-color-swatch" style="background:#a31621"></span> 深紅</td>
+                      <td>國防部</td>
+                      <td><b>14</b> 項</td>
+                      <td><span class="adm-pill ok">啟用</span></td>
+                      <td class="col-action">
+                        <button class="adm-row-edit" onclick="admOpenModal('cat','edit')">✎ 編輯</button>
+                        <button class="adm-row-del" onclick="admConfirmDel('國防部')">🗑 刪除</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-seq">2</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="2"></td>
+                      <td class="col-mono">NSTC</td>
+                      <td>國科會</td>
+                      <td class="col-mono">技術 15–28</td>
+                      <td><span class="adm-color-swatch" style="background:#c2410c"></span> 橘色</td>
+                      <td>國科會</td>
+                      <td><b>14</b> 項</td>
+                      <td><span class="adm-pill ok">啟用</span></td>
+                      <td class="col-action">
+                        <button class="adm-row-edit" onclick="admOpenModal('cat','edit')">✎ 編輯</button>
+                        <button class="adm-row-del" onclick="admConfirmDel('國科會')">🗑 刪除</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-seq">3</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="3"></td>
+                      <td class="col-mono">MOEA</td>
+                      <td>經濟部</td>
+                      <td class="col-mono">技術 29–36</td>
+                      <td><span class="adm-color-swatch" style="background:#b8860b"></span> 金色</td>
+                      <td>經濟部</td>
+                      <td><b>8</b> 項</td>
+                      <td><span class="adm-pill ok">啟用</span></td>
+                      <td class="col-action">
+                        <button class="adm-row-edit" onclick="admOpenModal('cat','edit')">✎ 編輯</button>
+                        <button class="adm-row-del" onclick="admConfirmDel('經濟部')">🗑 刪除</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-seq">4</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="4"></td>
+                      <td class="col-mono">MODA</td>
+                      <td>數位發展部</td>
+                      <td class="col-mono">技術 37–39</td>
+                      <td><span class="adm-color-swatch" style="background:#1e40af"></span> 藍色</td>
+                      <td>數位發展部</td>
+                      <td><b>3</b> 項</td>
+                      <td><span class="adm-pill ok">啟用</span></td>
+                      <td class="col-action">
+                        <button class="adm-row-edit" onclick="admOpenModal('cat','edit')">✎ 編輯</button>
+                        <button class="adm-row-del" onclick="admConfirmDel('數位發展部')">🗑 刪除</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-seq">5</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="5"></td>
+                      <td class="col-mono">MOA</td>
+                      <td>農業部</td>
+                      <td class="col-mono">技術 40–42</td>
+                      <td><span class="adm-color-swatch" style="background:#15803d"></span> 綠色</td>
+                      <td>農業部</td>
+                      <td><b>3</b> 項</td>
+                      <td><span class="adm-pill ok">啟用</span></td>
+                      <td class="col-action">
+                        <button class="adm-row-edit" onclick="admOpenModal('cat','edit')">✎ 編輯</button>
+                        <button class="adm-row-del" onclick="admConfirmDel('農業部')">🗑 刪除</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="adm-pagination">
+                  <span class="adm-pg-info">顯示 <b>1–5</b> 筆 / 共 <b>5</b> 筆</span>
+                  <div class="adm-pg-spacer"></div>
+                  <span class="adm-pg-size">每頁
+                    <select onchange="admChangePageSize(this)">
+                      <option>20</option><option>30</option><option>50</option><option>100</option>
+                    </select>
+                  </span>
+                  <div class="adm-pg-btns">
+                    <button class="adm-pg-btn active">1</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═════ Tab 2: 技術項管理（L2）═════ -->
+            <div class="adm-page-pane" data-pane="item">
+              <div class="adm-toolbar">
+                <div class="adm-search">
+                  <span class="adm-search-icon">🔍</span>
+                  <input type="text" placeholder="搜尋技術名稱、編號、技術類別...">
+                </div>
+                <select class="adm-filter">
+                  <option>主管機關:全部</option>
+                  <option>國防部</option>
+                  <option>國科會</option>
+                  <option>經濟部</option>
+                  <option>數位發展部</option>
+                  <option>農業部</option>
+                </select>
+                <select class="adm-filter">
+                  <option>盤點狀態:全部</option>
+                  <option>已盤點</option>
+                  <option>未公開(軍方)</option>
+                </select>
+                <div class="adm-tool-spacer"></div>
+                <button class="adm-add-btn" onclick="admOpenModal('tech')">＋ 新增關鍵技術</button>
+              </div>
+
+              <div class="adm-table-wrap">
+                <table class="adm-table">
+                  <thead>
+                    <tr>
+                      <th class="col-seq">#</th>
+                      <th class="col-order">排序</th>
+                      <th>技術編號</th>
+                      <th>技術名稱</th>
+                      <th>主管機關</th>
+                      <th>技術架構（L3）</th>
+                      <th>代表廠商</th>
+                      <th>盤點狀態</th>
+                      <th>更新日</th>
+                      <th class="col-action">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-tech-id="01">
+                      <td class="col-seq">1</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">01</td>
+                      <td>軍用碳纖維複合材料技術</td>
+                      <td>國防部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('01')"><b>2</b> 項 <span class="arr">▾</span></button></td>
+                      <td>7 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('軍用碳纖維')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="01" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row">
+                            <span class="adm-arch-preview-num">L3 #1</span>
+                            <span class="adm-arch-preview-name">材料端（纖維/樹脂/預浸與板材）</span>
+                            <span class="adm-arch-preview-firms"><b>5 家</b>：台麗菲碳纖、台塑企業、碳基科技、南寶樹脂、長春石化</span>
+                          </div>
+                          <div class="adm-arch-preview-row">
+                            <span class="adm-arch-preview-num">L3 #2</span>
+                            <span class="adm-arch-preview-name">製程端（成型/加工/製造能力）</span>
+                            <span class="adm-arch-preview-firms"><b>2 家</b>：拓凱實業、漢翔航空工業</span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="06">
+                      <td class="col-seq">2</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">06</td>
+                      <td>衝壓引擎技術</td>
+                      <td>國防部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('06')"><b>3</b> 項 <span class="arr">▾</span></button></td>
+                      <td>5 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('衝壓引擎')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="06" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">燃燒室與進氣設計</span><span class="adm-arch-preview-firms"><b>2 家</b>：漢翔航空工業、中科院關係企業</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">超音速控制系統</span><span class="adm-arch-preview-firms"><b>2 家</b>：駐龍精密、雷虎科技</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">耐高溫材料</span><span class="adm-arch-preview-firms"><b>1 家</b>：碳基科技</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="07">
+                      <td class="col-seq">3</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">07</td>
+                      <td>軍用多模態情資智慧化分析暨生成技術</td>
+                      <td>國防部</td>
+                      <td><span style="color:#94a3b8;font-style:italic;font-size:11px">未公開</span></td>
+                      <td>—</td>
+                      <td><span class="adm-pill gray">未公開</span></td>
+                      <td class="col-mono">—</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('軍用情資')">🗑 刪除</button></td>
+                    </tr>
+
+                    <tr data-tech-id="28">
+                      <td class="col-seq">4</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">28</td>
+                      <td>低溫半導體晶片電路設計與製程</td>
+                      <td>經濟部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('28')"><b>4</b> 項 <span class="arr">▾</span></button></td>
+                      <td>9 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('低溫半導體')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="28" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">低溫 CMOS 設計</span><span class="adm-arch-preview-firms"><b>3 家</b>：聯發科、創意電子、智原科技</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">低溫測試與封裝</span><span class="adm-arch-preview-firms"><b>2 家</b>：日月光、京元電子</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">超導/量子相容介面</span><span class="adm-arch-preview-firms"><b>2 家</b>：台積電、瑞昱半導體</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #4</span><span class="adm-arch-preview-name">低溫驗證設備</span><span class="adm-arch-preview-firms"><b>2 家</b>：旺矽科技、雍智科技</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="29">
+                      <td class="col-seq">5</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">29</td>
+                      <td>14 奈米以下 IC 製程</td>
+                      <td>經濟部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('29')"><b>3</b> 項 <span class="arr">▾</span></button></td>
+                      <td>11 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('14 奈米')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="29" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">先進製程晶圓代工</span><span class="adm-arch-preview-firms"><b>2 家</b>：台積電、力積電</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">EUV 微影與光罩</span><span class="adm-arch-preview-firms"><b>3 家</b>：家登精密、勝一化工、信紘科</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">FinFET / GAA 元件</span><span class="adm-arch-preview-firms"><b>1 家</b>：台積電</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="30">
+                      <td class="col-seq">6</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">30</td>
+                      <td>異質整合封裝技術</td>
+                      <td>經濟部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('30')"><b>4</b> 項 <span class="arr">▾</span></button></td>
+                      <td>32 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('異質整合')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="30" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">CoWoS 封裝</span><span class="adm-arch-preview-firms"><b>3 家</b>：台積電、日月光、京元電</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">2.5D / 3D 整合</span><span class="adm-arch-preview-firms"><b>4 家</b>：力成、南茂、頎邦、矽品</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">HBM 整合</span><span class="adm-arch-preview-firms"><b>2 家</b>：南亞科、群聯</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #4</span><span class="adm-arch-preview-name">EMIB / Chiplet 互連</span><span class="adm-arch-preview-firms"><b>3 家</b>：聯發科、創意電子、智原</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="34">
+                      <td class="col-seq">7</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">34</td>
+                      <td>人工智慧運算之高效能晶片設計技術</td>
+                      <td>經濟部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('34')"><b>5</b> 項 <span class="arr">▾</span></button></td>
+                      <td>45 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('AI 高效能晶片')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="34" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">架構/微架構（矩陣/張量核心）</span><span class="adm-arch-preview-firms"><b>5 家</b>：聯發科、瑞昱半導體、創意電子、智原科技、世芯-KY</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">記憶體/封裝（HBM/2.5D/3D/Chiplet）</span><span class="adm-arch-preview-firms"><b>4 家</b>：日月光、力成、南亞科、群聯電子</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">互連/通訊（SerDes/PCIe/CXL）</span><span class="adm-arch-preview-firms"><b>3 家</b>：智原科技、創意電子、聯發科</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #4</span><span class="adm-arch-preview-name">EDA / IP 設計流程</span><span class="adm-arch-preview-firms"><b>2 家</b>：智原、創意</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #5</span><span class="adm-arch-preview-name">雲端 AI 推論平台</span><span class="adm-arch-preview-firms"><b>2 家</b>：聯發科、世芯-KY</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="35">
+                      <td class="col-seq">8</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">35</td>
+                      <td>高頻寬密度小晶片互聯電路設計技術</td>
+                      <td>經濟部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('35')"><b>3</b> 項 <span class="arr">▾</span></button></td>
+                      <td>38 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('Chiplet')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="35" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">UCIe 互連標準實作</span><span class="adm-arch-preview-firms"><b>3 家</b>：聯發科、創意、世芯</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">Die-to-Die SerDes</span><span class="adm-arch-preview-firms"><b>2 家</b>：智原、創意電子</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #3</span><span class="adm-arch-preview-name">Chiplet 封裝協同設計</span><span class="adm-arch-preview-firms"><b>2 家</b>：台積電、日月光</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="37">
+                      <td class="col-seq">9</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">37</td>
+                      <td>晶片安全技術</td>
+                      <td>數位發展部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('37')"><b>2</b> 項 <span class="arr">▾</span></button></td>
+                      <td>5 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('晶片安全')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="37" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">硬體信任根 / 啟動鏈</span><span class="adm-arch-preview-firms"><b>3 家</b>：聯發科、瑞昱、創意</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">側通道防護</span><span class="adm-arch-preview-firms"><b>2 家</b>：群聯、智原</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr data-tech-id="42">
+                      <td class="col-seq">10</td>
+                      <td><span class="adm-drag-handle">⋮⋮</span><input class="adm-order-input" type="number" value="0"></td>
+                      <td class="col-mono">42</td>
+                      <td>農業設施專家系統技術</td>
+                      <td>農業部</td>
+                      <td><button class="adm-arch-badge" onclick="admToggleArchPreview('42')"><b>2</b> 項 <span class="arr">▾</span></button></td>
+                      <td>1 家</td>
+                      <td><span class="adm-pill ok">已盤點</span></td>
+                      <td class="col-mono">2026-02-09</td>
+                      <td class="col-action"><button class="adm-row-edit" onclick="admOpenModal('tech','edit')">✎ 編輯</button><button class="adm-row-del" onclick="admConfirmDel('農業設施')">🗑 刪除</button></td>
+                    </tr>
+                    <tr class="adm-arch-preview" data-preview-for="42" style="display:none">
+                      <td colspan="10">
+                        <div class="adm-arch-preview-list">
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #1</span><span class="adm-arch-preview-name">溫室環境感測與決策</span><span class="adm-arch-preview-firms"><b>1 家</b>：研華科技</span></div>
+                          <div class="adm-arch-preview-row"><span class="adm-arch-preview-num">L3 #2</span><span class="adm-arch-preview-name">作物生長預測模型</span><span class="adm-arch-preview-firms"><b>0 家</b>（盤點中）</span></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+                <div class="adm-pagination">
+                  <span class="adm-pg-info">顯示 <b>1–10</b> 筆 / 共 <b>42</b> 筆</span>
+                  <div class="adm-pg-spacer"></div>
+                  <span class="adm-pg-size">每頁
+                    <select onchange="admChangePageSize(this)">
+                      <option>20</option><option>30</option><option>50</option><option>100</option>
+                    </select>
+                  </span>
+                  <div class="adm-pg-btns">
+                    <button class="adm-pg-btn">‹</button>
+                    <button class="adm-pg-btn active">1</button>
+                    <button class="adm-pg-btn">2</button>
+                    <button class="adm-pg-btn">3</button>
+                    <button class="adm-pg-btn">›</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+<!-- 產業分類 + 關鍵技術選擇器 Modal -->
+        <div class="q2-modal" id="q2IndModal">
+          <div class="q2-modal-bg" onclick="q2CloseIndPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">📁 選擇產業分類（L1~L6）</div>
+                <div class="q2-modal-sub">資料源：工研院產業地圖 2024 · 共 2,057 個節點 · 可同時勾選多個層級的節點</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseIndPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2IndFilter" placeholder="輸入關鍵字過濾節點，例如：IC、半導體、GaN..." oninput="q2FilterIndTree()">
+                <button class="q2-sb-clear" onclick="q2ClearIndFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2IndExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2IndCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2IndPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2IndTreeWrap">
+              <div class="q2-tech-allrow" onclick="q2ToggleAllInd(document.getElementById('q2IndAllCb'))">
+                <input type="checkbox" class="q2-tree-cb-all" id="q2IndAllCb" onclick="event.stopPropagation();q2ToggleAllInd(this)">
+                <span class="q2-tech-all-lbl">☑ 全部選取（一次加入所有節點）</span>
+              </div>
+              <div id="q2IndTree">
+              <!-- 由 JS 渲染 -->
+              </div><!-- #q2IndTree -->
+            </div><!-- #q2IndTreeWrap -->
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2IndClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2IndApply()">✓ 套用 (<span id="q2IndApplyCnt">0</span>)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="q2-modal" id="q2TechModal">
+          <div class="q2-modal-bg" onclick="q2CloseTechPicker()"></div>
+          <div class="q2-modal-box">
+            <div class="q2-modal-head">
+              <div>
+                <div class="q2-modal-title">⚠ 選擇涉及之關鍵技術（42 項）</div>
+                <div class="q2-modal-sub">資料源:國家核心關鍵技術 · 5 部會公告 2025/11/24 · 5 主管機關共 42 項</div>
+              </div>
+              <button class="q2-modal-close" onclick="q2CloseTechPicker()">×</button>
+            </div>
+
+            <div class="q2-modal-toolbar">
+              <div class="q2-search-box">
+                <span class="q2-sb-icon">🔍</span>
+                <input type="text" id="q2TechFilter" placeholder="輸入關鍵字過濾，例如：AI、Chiplet、SiC、衛星..." oninput="q2FilterTechTree()">
+                <button class="q2-sb-clear" onclick="q2ClearTechFilter()" title="清除過濾">×</button>
+              </div>
+              <button class="q2-tool-btn" onclick="q2TechExpandAll()">▼ 全部展開</button>
+              <button class="q2-tool-btn" onclick="q2TechCollapseAll()">▲ 全部收合</button>
+              <span class="q2-modal-stat">已選 <b id="q2TechPickerCount">0</b> 項</span>
+            </div>
+
+            <div class="q2-modal-body" id="q2TechTree">
+              <!-- 由 JS 渲染 -->
+            </div>
+
+            <div class="q2-modal-footer">
+              <span class="q2-modal-tip">💡 勾選後點「套用」即可帶入主搜尋條件</span>
+              <button class="q2-clear-btn" onclick="q2TechClearTemp()">清除已選</button>
+              <button class="q2-search-btn" onclick="q2TechApply()">✓ 套用 (<span id="q2TechApplyCnt">0</span>)</button>
+            </div>
+          </div>
+
+</div>
+<!-- 共用管理 Modal -->
+        <div class="adm-modal" id="admModalFirm">
+          <div class="adm-modal-bg" onclick="admCloseModal('firm')"></div>
+          <div class="adm-modal-box adm-modal-box-wide">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">🏭 <span id="admFirmTitle">新增廠商資料</span></div></div>
+              <button class="adm-modal-close" onclick="admCloseModal('firm')">×</button>
+            </div>
+
+            <div class="adm-tabs">
+              <button class="adm-tab active" data-tab="basic" onclick="admSwitchTab('firm','basic')">
+                <span class="adm-tab-num">1</span>基本資料
+              </button>
+              <button class="adm-tab" data-tab="alias" onclick="admSwitchTab('firm','alias')">
+                <span class="adm-tab-num">2</span>別名
+                <span class="adm-tab-cnt" id="admFirmAliasCnt">0</span>
+              </button>
+              <button class="adm-tab" data-tab="ind" onclick="admSwitchTab('firm','ind')">
+                <span class="adm-tab-num">3</span>產業鏈與關鍵技術設定
+                <span class="adm-tab-cnt" id="admFirmIndsCnt">0</span>
+              </button>
+              <button class="adm-tab" data-tab="rel" onclick="admSwitchTab('firm','rel')">
+                <span class="adm-tab-num">4</span>關聯企業（事業群）
+                <span class="adm-tab-cnt" id="admFirmRelsCnt">0</span>
+              </button>
+            </div>
+
+            <div class="adm-modal-body">
+
+              <!-- Tab 1：基本資料 -->
+              <div class="adm-tab-pane active" data-pane="basic">
+                <div class="adm-form-grid">
+                  <div class="adm-form-section">基本識別資訊</div>
+                  <div class="adm-form-group"><label>統一編號 <span class="req">*</span></label><input type="text" placeholder="8 碼數字" maxlength="8"><span class="help">主鍵 · 不可重複</span></div>
+                  <div class="adm-form-group"><label>股票代號</label><input type="text" placeholder="例：2330" maxlength="6"></div>
+                  <div class="adm-form-group full"><label>正式中文名稱 <span class="req">*</span></label><input type="text" placeholder="例：台灣積體電路製造股份有限公司"><span class="help">請填入經濟部商業司公司登記之完整名稱</span></div>
+                  <div class="adm-form-group full"><label>正式英文名稱</label><input type="text" placeholder="例：Taiwan Semiconductor Manufacturing Co., Ltd."></div>
+                  <div class="adm-form-group"><label>代表人</label><input type="text" placeholder="例：魏哲家"></div>
+                  <div class="adm-form-group"><label>建檔年</label><input type="number" min="1900" max="2099" value="2024"></div>
+
+                  <div class="adm-form-section">公司屬性</div>
+                  <div class="adm-form-group"><label>上市別</label>
+                    <select><option>未上市櫃</option><option>上市 (TSE)</option><option>上櫃 (OTC)</option><option>興櫃</option><option>海外實體</option></select>
+                  </div>
+                  <div class="adm-form-group"><label>實收資本額（億）</label><input type="number" placeholder="2593"></div>
+                  <div class="adm-form-group"><label>員工人數</label><input type="number" placeholder="76478"></div>
+                  <div class="adm-form-group"><label>所在縣市</label><input type="text" placeholder="新竹科學園區"></div>
+                  <div class="adm-form-group"><label>電話 / 網址</label><input type="text" placeholder="03-5636688 / tsmc.com"></div>
+
+                  <div class="adm-form-section">狀態 / 排序</div>
+                  <div class="adm-form-group"><label>狀態</label>
+                    <select><option>啟用</option><option>停用</option><option>合併至其他公司</option></select>
+                  </div>
+                  <div class="adm-form-group"><label>資料來源</label>
+                    <select><option>商業司公司登記</option><option>工研院產業地圖</option><option>專家盤點</option><option>人工建檔</option></select>
+                  </div>
+                  <div class="adm-form-group"><label>排序值</label><input type="number" value="0"></div>
+                  <div class="adm-form-group full"><label>備註</label><textarea placeholder="輸入相關備註..."></textarea></div>
+                </div>
+              </div>
+
+              <!-- Tab 2：別名 -->
+              <div class="adm-tab-pane" data-pane="alias">
+                <div class="adm-tab-intro">
+                  <b style="color:#0f2347">廠商別名</b>讓搜尋時可命中各種變體（簡稱、舊名、暱稱、英文縮寫等），所有別名皆會建立索引。
+                </div>
+                <div class="adm-form-grid">
+                  <div class="adm-form-section">常用簡稱（高頻搜尋使用）</div>
+                  <div class="adm-form-group"><label>中文簡稱</label><input type="text" placeholder="例：台積電"></div>
+                  <div class="adm-form-group"><label>英文簡稱</label><input type="text" placeholder="例：TSMC"></div>
+                  <div class="adm-form-section">其他別名 / 歷史名稱（可動態增減）</div>
+                  <div class="adm-form-group full">
+                    <div class="adm-aliases" id="admFirmAliases"></div>
+                    <button type="button" class="adm-add-alias-btn" onclick="admAddAlias()">＋ 新增別名</button>
+                    <span class="help">如「護國神山」、「台積」、舊名「台灣積電」、英文舊名等，於搜尋時皆可命中此廠商</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 3：產業鏈與關鍵技術設定（整合原 Tab3+Tab4） -->
+              <div class="adm-tab-pane" data-pane="ind">
+                <div class="adm-tab-intro">
+                  <b style="color:#0f2347">產業鏈與關鍵技術設定</b> — 設定廠商所屬產業分類路徑，並可在每條路徑下標註關聯的國家核心關鍵技術。
+                </div>
+                <div class="adm-form-grid">
+                  <div class="adm-form-section">所屬產業分類路徑 · 關鍵技術關聯</div>
+                  <div class="adm-form-group full">
+                    <label>產業分類（可跨多領域複選）</label>
+                    <div class="adm-picker-row">
+                      <button type="button" class="adm-picker-trigger" onclick="admOpenIndPicker('firm')">
+                        <span class="adm-pt-icon">📁</span>
+                        <span class="adm-pt-text">瀏覽 / 選擇產業分類（L1~L6）</span>
+                        <span class="adm-pt-arr">▾</span>
+                      </button>
+                      <span class="adm-pt-info">已選 <b id="admFirmIndCount">0</b> 個領域路徑</span>
+                    </div>
+                    <span class="help">勾選後會以「L1 → L2 → L3 → ...」完整路徑呈現於下方，可在每條路徑後方選擇關聯之關鍵技術</span>
+                    <div id="admFirmIndPaths"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 4：關聯企業（事業群架構）-->
+              <div class="adm-tab-pane" data-pane="rel">
+                <div class="adm-tab-intro">
+                  <b style="color:#0f2347">事業群架構</b>記錄廠商間之控股、合營、投資關聯，前端「廠商詳情→事業群架構圖」直接由此資料生成。
+                  <br><span style="color:#94a3b8">所有關聯廠商必須從廠商資料庫挑選；找不到的可使用「快速新增」建立海外實體或新公司。</span>
+                </div>
+
+                <!-- 父方關聯 -->
+                <div class="adm-rel-section">
+                  <div class="adm-rel-section-head">
+                    <span class="adm-rel-section-icon">▲</span>
+                    <span class="adm-rel-section-title">父方關聯（被持股）</span>
+                    <span class="adm-rel-section-cnt" id="admRelParentCnt">0</span>
+                    <span class="adm-rel-section-hint">— 誰持有此廠商</span>
+                  </div>
+                  <div class="adm-rel-list" id="admRelParents"></div>
+                  <button type="button" class="adm-rel-add-btn" onclick="admRelOpenAddModal('parent')">＋ 新增父方關聯</button>
+                </div>
+
+                <!-- 子方關聯 -->
+                <div class="adm-rel-section">
+                  <div class="adm-rel-section-head">
+                    <span class="adm-rel-section-icon">▼</span>
+                    <span class="adm-rel-section-title">子方關聯（投資 / 控股）</span>
+                    <span class="adm-rel-section-cnt" id="admRelChildCnt">0</span>
+                    <span class="adm-rel-section-hint">— 此廠商持有誰</span>
+                  </div>
+                  <div class="adm-rel-list" id="admRelChildren"></div>
+                  <button type="button" class="adm-rel-add-btn" onclick="admRelOpenAddModal('child')">＋ 新增子方關聯</button>
+                </div>
+
+                <!-- 變更歷程（demo 用）-->
+                <div class="adm-rel-section">
+                  <div class="adm-rel-section-head">
+                    <span class="adm-rel-section-icon">📋</span>
+                    <span class="adm-rel-section-title">關聯變更歷程</span>
+                    <span class="adm-rel-section-hint">— 最近 4 筆 · 完整稽核日誌請查「稽核日誌」模組</span>
+                  </div>
+                  <table class="adm-rel-history">
+                    <thead>
+                      <tr><th>時間</th><th>操作</th><th>對象</th><th>變更內容</th><th>操作人 / 來源</th></tr>
+                    </thead>
+                    <tbody id="admRelHistory">
+                      <tr><td class="col-mono">—</td><td colspan="4" style="color:#94a3b8;font-style:italic">尚無關聯變更紀錄（新增/修改後將自動記錄）</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位</span>
+              <button class="adm-cancel-btn" onclick="admCloseModal('firm')">取消</button>
+              <button class="adm-save-btn" onclick="admSave('firm')">✓ 儲存</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalIndustry">
+          <div class="adm-modal-bg" onclick="admCloseModal('industry')"></div>
+          <div class="adm-modal-box">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">🌳 <span id="admIndTitle">新增產業節點</span></div></div>
+              <button class="adm-modal-close" onclick="admCloseModal('industry')">×</button>
+            </div>
+            <div class="adm-modal-body">
+
+              <!-- 上下文資訊（自動帶入，唯讀）-->
+              <div class="adm-add-context" id="admIndAddContext">
+                <div class="adm-add-context-title">📍 將新增至此位置</div>
+                <div class="adm-add-context-row">
+                  <label>父節點：</label>
+                  <span id="admIndCtxParent"><b style="color:#94a3b8">（無 — 將作為 L1 大產業類別）</b></span>
+                </div>
+                <div class="adm-add-context-row">
+                  <label>新節點層級：</label>
+                  <span id="admIndCtxLvl"><span class="adm-tree-lv l1">L1</span><b>大產業類別</b></span>
+                </div>
+                <div class="adm-add-context-row">
+                  <label>建議排序：</label>
+                  <span id="admIndCtxOrder"><b>1</b><span style="color:#94a3b8;font-size:12px;margin-left:8px">（依目前父節點下子節點數量自動產生）</span></span>
+                </div>
+              </div>
+
+              <div class="adm-form-grid">
+                <div class="adm-form-section">節點基本資料</div>
+                <div class="adm-form-group full">
+                  <label>節點名稱 <span class="req">*</span></label>
+                  <input type="text" placeholder="例：半導體產業 / IC 設計 / 3 奈米製程">
+                  <span class="help">最少資訊就能完成新增 — 父節點與層級已由系統自動帶入</span>
+                </div>
+                <div class="adm-form-group">
+                  <label>節點編號 (node_sn)</label>
+                  <input type="text" placeholder="（系統自動產生，可手動指定）">
+                  <span class="help">5 碼數字 · 不可重複 · 留空由系統指派</span>
+                </div>
+                <div class="adm-form-group">
+                  <label>盤點年</label>
+                  <input type="number" value="2024">
+                </div>
+                <div class="adm-form-group">
+                  <label>排序值（可調整）</label>
+                  <input type="number" id="admIndOrderInput" value="1">
+                </div>
+                <div class="adm-form-group">
+                  <label>狀態</label>
+                  <select><option>啟用</option><option>停用</option></select>
+                </div>
+
+                <div class="adm-form-section">關鍵技術關聯</div>
+                <div class="adm-form-group full">
+                  <label>關聯之關鍵技術</label>
+                  <div class="adm-picker-row">
+                    <button type="button" class="adm-picker-trigger" onclick="admOpenTechPicker('industry')">
+                      <span class="adm-pt-icon">⚠</span>
+                      <span class="adm-pt-text">瀏覽 / 選擇關鍵技術（42 項）</span>
+                      <span class="adm-pt-arr">▾</span>
+                    </button>
+                    <span class="adm-pt-info">已選 <b id="admIndTechCount">0</b> 項</span>
+                  </div>
+                  <span class="help">本產業節點之代表廠商涉及哪些關鍵技術</span>
+                  <div class="adm-tech-chips" id="admIndTechChips"></div>
+                </div>
+                <div class="adm-form-group"><label>關鍵技術標記</label>
+                  <select><option>無</option><option>含關鍵技術</option><option>核心關鍵節點</option></select>
+                </div>
+                <div class="adm-form-group"><label>風險等級</label>
+                  <select><option>未評估</option><option>低風險</option><option>中風險</option><option>高風險</option></select>
+                </div>
+
+                <div class="adm-form-section">補充資訊</div>
+                <div class="adm-form-group"><label>資料來源</label>
+                  <select><option>工研院產業地圖 2024</option><option>內部新增</option><option>專家補正</option></select>
+                </div>
+                <div class="adm-form-group"></div>
+                <div class="adm-form-group full"><label>節點說明 / 備註</label><textarea placeholder="此節點的補充說明..."></textarea></div>
+              </div>
+            </div>
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位 · 其餘欄位皆可後續編輯</span>
+              <button class="adm-cancel-btn" onclick="admCloseModal('industry')">取消</button>
+              <button class="adm-save-btn" onclick="admSave('industry')">✓ 儲存並加入樹中</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalTech">
+          <div class="adm-modal-bg" onclick="admCloseModal('tech')"></div>
+          <div class="adm-modal-box adm-modal-box-wide">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">⚠ <span id="admTechTitle">新增關鍵技術</span></div></div>
+              <button class="adm-modal-close" onclick="admCloseModal('tech')">×</button>
+            </div>
+
+            <div class="adm-tabs">
+              <button class="adm-tab active" data-tab="main" onclick="admSwitchTab('tech','main')">
+                <span class="adm-tab-num">1</span>主項基本資料
+              </button>
+              <button class="adm-tab" data-tab="archs" onclick="admSwitchTab('tech','archs')">
+                <span class="adm-tab-num">2</span>技術架構清單
+                <span class="adm-tab-cnt" id="admTechArchsCnt">0</span>
+              </button>
+            </div>
+
+            <div class="adm-modal-body">
+
+              <div class="adm-tab-pane active" data-pane="main">
+                <div class="adm-form-grid">
+                  <div class="adm-form-section">技術基本資訊</div>
+                  <div class="adm-form-group"><label>技術編號 <span class="req">*</span></label><input type="number" min="1" max="99" placeholder="1-42"></div>
+                  <div class="adm-form-group"><label>排序值</label><input type="number" value="0"></div>
+                  <div class="adm-form-group full"><label>國家核心技術名稱 <span class="req">*</span></label><input type="text" placeholder="例：人工智慧運算之高效能晶片設計技術"></div>
+                  <div class="adm-form-group full"><label>技術類別 / 描述</label><textarea placeholder="例：AI 專用 ASIC/SoC 設計　註1. ASIC: Application-Specific Integrated Circuit..."></textarea><span class="help">可包含註解說明（註1.、註2.）</span></div>
+
+                  <div class="adm-form-section">主管與類別</div>
+                  <div class="adm-form-group"><label>主管機關 <span class="req">*</span></label>
+                    <select><option>請選擇...</option><option>國防部</option><option>國科會</option><option>經濟部</option><option>數位發展部</option><option>農業部</option></select>
+                  </div>
+                  <div class="adm-form-group"><label>隸屬類別 <span class="req">*</span></label>
+                    <select><option>請選擇...</option><option>DEF · 國防部(1-14)</option><option>NSTC · 國科會(15-28)</option><option>MOEA · 經濟部(29-36)</option><option>MODA · 數位發展部(37-39)</option><option>MOA · 農業部(40-42)</option></select>
+                    <span class="help">類別由「類別管理」頁籤維護</span>
+                  </div>
+                  <div class="adm-form-group"><label>公告日期</label><input type="date" value="2025-11-24"></div>
+                  <div class="adm-form-group"><label>是否為主標項</label>
+                    <select><option>否</option><option>是 ★</option></select>
+                  </div>
+
+                  <div class="adm-form-section">資料盤點狀態</div>
+                  <div class="adm-form-group"><label>盤點狀態</label>
+                    <select><option>已盤點</option><option>進行中</option><option>未公開（軍方）</option><option>尚未盤點</option></select>
+                  </div>
+                  <div class="adm-form-group"><label>是否公開</label>
+                    <select><option>是</option><option>否</option><option>部分公開</option></select>
+                  </div>
+                  <div class="adm-form-group full"><label>備註</label><textarea placeholder="補充說明..."></textarea></div>
+                </div>
+              </div>
+
+              <div class="adm-tab-pane" data-pane="archs">
+                <div class="adm-tab-intro">
+                  <b style="color:#0f2347">技術架構</b> 是本技術下的子分類，可包含多個架構，每個架構可標註多家代表廠商。
+                  <br><span style="color:#94a3b8">例：#34 AI 晶片底下可能有「微架構」「記憶體封裝」「互連通訊」等多個技術子架構，每個架構各有對應的代表廠商。</span>
+                </div>
+                <div class="adm-archs" id="admTechArchs"></div>
+                <button type="button" class="adm-add-arch-btn" onclick="admAddArch()">＋ 新增技術架構</button>
+              </div>
+
+            </div>
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位</span>
+              <button class="adm-cancel-btn" onclick="admCloseModal('tech')">取消</button>
+              <button class="adm-save-btn" onclick="admSave('tech')">✓ 儲存</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalRel">
+          <div class="adm-modal-bg" onclick="admRelCloseAddModal()"></div>
+          <div class="adm-modal-box">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">🔗 <span id="admRelTitle">新增關聯企業</span></div></div>
+              <button class="adm-modal-close" onclick="admRelCloseAddModal()">×</button>
+            </div>
+            <div class="adm-modal-body">
+
+              <!-- 上下文 -->
+              <div class="adm-add-context" style="background:#dbeafe;border-color:#93c5fd">
+                <div class="adm-add-context-title" style="color:#1e40af">🔗 為「<span id="admRelCtxFirm">日月光半導體製造</span>」新增關聯</div>
+                <div class="adm-add-context-row">
+                  <label>關聯方向：</label>
+                  <span id="admRelCtxDir"><b style="color:#0f2347">▲ 父方關聯（誰持有此廠商）</b></span>
+                </div>
+              </div>
+
+              <div class="adm-form-grid">
+                <div class="adm-form-section">關聯對象</div>
+                <div class="adm-form-group full">
+                  <label>關聯廠商 <span class="req">*</span></label>
+                  <div class="adm-rel-firm-pick">
+                    <input type="text" id="admRelFirmInput" class="adm-rel-firm-input"
+                           placeholder="輸入廠商名稱、簡稱、別名、統編搜尋..."
+                           oninput="admRelAutocomplete(this.value)"
+                           onfocus="admRelAutocomplete(this.value)"
+                           autocomplete="off">
+                    <div class="adm-rel-ac" id="admRelAutocomplete"></div>
+                    <div class="adm-rel-firm-picked" id="admRelFirmPicked" style="display:none"></div>
+                  </div>
+                  <span class="help">必須從廠商資料庫挑選 · 找不到？<a href="javascript:admRelQuickAddFirm()" style="color:#a31621;font-weight:700">＋ 快速新增廠商</a></span>
+                </div>
+
+                <div class="adm-form-section">關聯屬性</div>
+                <div class="adm-form-group"><label>關聯類型 <span class="req">*</span></label>
+                  <select id="admRelType">
+                    <option value="control">控股 (>50%)</option>
+                    <option value="joint">合營 (20-50%)</option>
+                    <option value="invest">投資 (<20%)</option>
+                    <option value="overseas">海外控股</option>
+                    <option value="alliance">聯營 / 策略</option>
+                  </select>
+                </div>
+                <div class="adm-form-group"><label>持股比例 (%)</label>
+                  <input type="number" min="0" max="100" step="0.01" placeholder="100.00" id="admRelPct">
+                </div>
+                <div class="adm-form-group"><label>生效日</label><input type="date" id="admRelDate"></div>
+                <div class="adm-form-group"><label>資料來源</label>
+                  <select>
+                    <option>MOPS 公開觀測站</option>
+                    <option>商業司公司登記</option>
+                    <option>投審案件回填</option>
+                    <option>人工建檔</option>
+                  </select>
+                </div>
+
+                <div class="adm-form-section">標記</div>
+                <div class="adm-form-group full">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="admRelFlagWarn" style="width:16px;height:16px">
+                    需注意（觸發前端紅色警示，例如海外中轉、可疑架構）
+                  </label>
+                </div>
+                <div class="adm-form-group full"><label>備註</label><textarea id="admRelNote" placeholder="例：透過香港中轉、含先進封裝相關製程..."></textarea></div>
+              </div>
+            </div>
+            <div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位 · 雙向關聯自動建立</span>
+              <button class="adm-cancel-btn" onclick="admRelCloseAddModal()">取消</button>
+              <button class="adm-save-btn" onclick="admRelSave()">✓ 儲存關聯</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalCat">
+          <div class="adm-modal-bg" onclick="admCloseModal('cat')"></div>
+          <div class="adm-modal-box">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">🏷 <span id="admCatTitle">新增技術類別（L1）</span></div></div>
+              <button class="adm-modal-close" onclick="admCloseModal('cat')">×</button>
+            </div>
+            <div class="adm-modal-body">
+              <div class="adm-form-grid">
+                <div class="adm-form-section">類別基本資料</div>
+                <div class="adm-form-group"><label>類別代碼 <span class="req">*</span></label><input type="text" placeholder="例：DEF / SEMI / SEC / BIO" maxlength="8"><span class="help">英文代碼，作為內部識別 (建議 3-5 碼大寫)</span></div>
+                <div class="adm-form-group"><label>排序值</label><input type="number" value="0"></div>
+                <div class="adm-form-group full"><label>類別名稱 <span class="req">*</span></label><input type="text" placeholder="例:國防部"></div>
+
+                <div class="adm-form-section">技術範圍</div>
+                <div class="adm-form-group"><label>起始技術編號 <span class="req">*</span></label><input type="number" min="1" max="99" placeholder="1"></div>
+                <div class="adm-form-group"><label>結束技術編號 <span class="req">*</span></label><input type="number" min="1" max="99" placeholder="26"></div>
+
+                <div class="adm-form-section">主管與顯示</div>
+                <div class="adm-form-group"><label>主管機關 <span class="req">*</span></label>
+                  <select><option>請選擇...</option><option>國防部</option><option>國科會</option><option>經濟部</option><option>數位發展部</option><option>農業部</option></select>
+                </div>
+                <div class="adm-form-group"><label>顯示色（HEX）</label><input type="text" placeholder="#a31621" maxlength="7"><span class="help">用於前端關鍵技術頁色條</span></div>
+
+                <div class="adm-form-section">狀態</div>
+                <div class="adm-form-group"><label>狀態</label>
+                  <select><option>啟用</option><option>停用</option></select>
+                </div>
+                <div class="adm-form-group full"><label>類別描述</label><textarea placeholder="此類別涵蓋之技術範疇與用途說明..."></textarea></div>
+              </div>
+            </div>
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位</span>
+              <button class="adm-cancel-btn" onclick="admCloseModal('cat')">取消</button>
+              <button class="adm-save-btn" onclick="admSave('cat')">✓ 儲存</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalCase">
+          <div class="adm-modal-bg" onclick="admCloseModal('case')"></div>
+          <div class="adm-modal-box">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">📋 <span id="admCaseTitle">新增鑑定案件</span></div></div>
+              <button class="adm-modal-close" onclick="admCloseModal('case')">×</button>
+            </div>
+            <div class="adm-modal-body">
+              <div class="adm-form-grid">
+                <div class="adm-form-section">案件基本資訊</div>
+                <div class="adm-form-group"><label>案件編號 <span class="req">*</span></label><input type="text" placeholder="例：11520041200"><span class="help">11 碼，系統可自動產生</span></div>
+                <div class="adm-form-group"><label>到件日期 <span class="req">*</span></label><input type="date"></div>
+                <div class="adm-form-group"><label>案件來源 <span class="req">*</span></label>
+                  <select><option>對外投資 1 科</option><option>對外投資 2 科</option><option>對台投資 1 科</option><option>對台投資 2 科</option></select>
+                </div>
+                <div class="adm-form-group"><label>排序值</label><input type="number" value="0"></div>
+
+                <div class="adm-form-section">投資架構</div>
+                <div class="adm-form-group"><label>投資人 <span class="req">*</span></label><input type="text" placeholder="例：群創光電股份有限公司"></div>
+                <div class="adm-form-group"><label>投資事業 <span class="req">*</span></label><input type="text" placeholder="例：SUZHOU CHIMEI 投資管理"></div>
+                <div class="adm-form-group full" id="adm-relay-group">
+                  <label>中轉公司（如有）</label>
+                  <div id="adm-relay-list" style="display:flex;flex-direction:column;gap:6px"></div>
+                  <button type="button" class="adm-relay-add-btn" onclick="admRelayAdd()">＋ 新增中轉公司</button>
+                </div>
+
+                <div class="adm-form-section">關鍵技術與風險</div>
+                <div class="adm-form-group full">
+                  <label>涉及之關鍵技術</label>
+                  <div class="adm-picker-row">
+                    <button type="button" class="adm-picker-trigger" onclick="admOpenTechPicker('case')">
+                      <span class="adm-pt-icon">⚠</span>
+                      <span class="adm-pt-text">瀏覽 / 選擇關鍵技術（42 項）</span>
+                      <span class="adm-pt-arr">▾</span>
+                    </button>
+                    <span class="adm-pt-info">已選 <b id="admCaseTechCount">0</b> 項</span>
+                  </div>
+                  <span class="help">本案件投資架構涉及哪些國家核心關鍵技術</span>
+                  <div class="adm-tech-chips" id="admCaseTechChips"></div>
+                </div>
+                <div class="adm-form-group full"><label>注意事項</label><textarea placeholder="例：透過香港中轉公司投資、含先進封裝相關製程..."></textarea></div>
+
+                <div class="adm-form-section">審查結果</div>
+                <div class="adm-form-group"><label>鑑定結果 <span class="req">*</span></label>
+                  <select><option>審查中</option><option>否 · 不涉及</option><option>是 · 涉及</option></select>
+                </div>
+                <div class="adm-form-group"><label>審查官</label><input type="text" placeholder="王玉姍"></div>
+                <div class="adm-form-group full">
+                  <label>審查說明</label>
+                  <div class="rte-wrap">
+                    <div class="rte-toolbar" data-target="rte-review">
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-review','bold')" title="粗體"><b>B</b></button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-review','italic')" title="斜體"><i>I</i></button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-review','underline')" title="底線"><u>U</u></button>
+                      <span class="rte-sep"></span>
+                      <input type="color" class="rte-color" title="文字顏色" onchange="rteColor('rte-review',this.value)">
+                      <span class="rte-sep"></span>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-review','insertUnorderedList')" title="無序清單">≡</button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-review','insertOrderedList')" title="有序清單">1.</button>
+                      <span class="rte-sep"></span>
+                      <button type="button" class="rte-btn" onclick="rteLink('rte-review')" title="插入超連結">🔗</button>
+                      <button type="button" class="rte-btn" onclick="rteImgUpload('rte-review')" title="插入圖片">🖼</button>
+                    </div>
+                    <div class="rte-body" id="rte-review" contenteditable="true" data-placeholder="主要鑑定理由與說明…"></div>
+                    <input type="file" id="rte-review-img-input" accept="image/*" style="display:none" onchange="rteImgInsert('rte-review',this)">
+                  </div>
+                </div>
+                <div class="adm-form-group full">
+                  <label>複審說明</label>
+                  <div class="rte-wrap">
+                    <div class="rte-toolbar" data-target="rte-rereview">
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-rereview','bold')" title="粗體"><b>B</b></button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-rereview','italic')" title="斜體"><i>I</i></button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-rereview','underline')" title="底線"><u>U</u></button>
+                      <span class="rte-sep"></span>
+                      <input type="color" class="rte-color" title="文字顏色" onchange="rteColor('rte-rereview',this.value)">
+                      <span class="rte-sep"></span>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-rereview','insertUnorderedList')" title="無序清單">≡</button>
+                      <button type="button" class="rte-btn" onclick="rteCmd('rte-rereview','insertOrderedList')" title="有序清單">1.</button>
+                      <span class="rte-sep"></span>
+                      <button type="button" class="rte-btn" onclick="rteLink('rte-rereview')" title="插入超連結">🔗</button>
+                      <button type="button" class="rte-btn" onclick="rteImgUpload('rte-rereview')" title="插入圖片">🖼</button>
+                    </div>
+                    <div class="rte-body" id="rte-rereview" contenteditable="true" data-placeholder="複審 Q&A 紀要…"></div>
+                    <input type="file" id="rte-rereview-img-input" accept="image/*" style="display:none" onchange="rteImgInsert('rte-rereview',this)">
+                  </div>
+                </div>
+                <div class="adm-form-group"><label>狀態</label>
+                  <select><option>有效</option><option>已歸檔</option><option>暫停追蹤</option></select>
+                </div>
+                <div class="adm-form-group"><label>最後更新日</label><input type="date"></div>
+
+                <!-- v5 新增：5 槽位附件 -->
+                <div class="adm-form-section">附件檔案</div>
+                <div class="adm-form-group full">
+                  <div class="adm-files-fixed">
+
+                    <div class="adm-file-slot">
+                      <div class="adm-slot-label">
+                        <span class="adm-slot-num">1</span>
+                        <span>關鍵技術鑑定報告</span>
+                        <span class="adm-slot-required">必要</span>
+                      </div>
+                      <div class="adm-slot-input">
+                        <input type="text" readonly value="關鍵技術鑑定報告_11520041200.pdf · 3.1 MB" class="adm-file-name-input">
+                        <button type="button" class="adm-file-btn" onclick="cdMockReplace(this.parentNode.parentNode, '關鍵技術鑑定報告')">📎 選擇檔案</button>
+                      </div>
+                    </div>
+
+                    <div class="adm-file-slot">
+                      <div class="adm-slot-label">
+                        <span class="adm-slot-num">2</span>
+                        <span>申請資料</span>
+                        <span class="adm-slot-required">必要</span>
+                      </div>
+                      <div class="adm-slot-input">
+                        <input type="text" readonly value="投資申請資料_群創光電_20260315.docx · 1.3 MB" class="adm-file-name-input">
+                        <button type="button" class="adm-file-btn" onclick="cdMockReplace(this.parentNode.parentNode, '申請資料')">📎 選擇檔案</button>
+                      </div>
+                    </div>
+
+                    <div class="adm-file-slot">
+                      <div class="adm-slot-label">
+                        <span class="adm-slot-num">3</span>
+                        <input type="text" class="adm-slot-name-input" value="其他附件1" placeholder="附件名稱…">
+                        <span class="adm-slot-optional">其他資料</span>
+                      </div>
+                      <div class="adm-slot-input">
+                        <input type="text" readonly value="" class="adm-file-name-input" placeholder="尚未上傳檔案">
+                        <button type="button" class="adm-file-btn" onclick="cdMockReplace(this.parentNode.parentNode, this.parentNode.parentNode.querySelector('.adm-slot-name-input').value)">📎 選擇檔案</button>
+                      </div>
+                    </div>
+
+                    <div class="adm-file-slot">
+                      <div class="adm-slot-label">
+                        <span class="adm-slot-num">4</span>
+                        <input type="text" class="adm-slot-name-input" value="其他附件2" placeholder="附件名稱…">
+                        <span class="adm-slot-optional">其他資料</span>
+                      </div>
+                      <div class="adm-slot-input">
+                        <input type="text" readonly value="" class="adm-file-name-input" placeholder="尚未上傳檔案">
+                        <button type="button" class="adm-file-btn" onclick="cdMockReplace(this.parentNode.parentNode, this.parentNode.parentNode.querySelector('.adm-slot-name-input').value)">📎 選擇檔案</button>
+                      </div>
+                    </div>
+
+                    <div class="adm-file-slot">
+                      <div class="adm-slot-label">
+                        <span class="adm-slot-num">5</span>
+                        <input type="text" class="adm-slot-name-input" value="其他附件3" placeholder="附件名稱…">
+                        <span class="adm-slot-optional">其他資料</span>
+                      </div>
+                      <div class="adm-slot-input">
+                        <input type="text" readonly value="" class="adm-file-name-input" placeholder="尚未上傳檔案">
+                        <button type="button" class="adm-file-btn" onclick="cdMockReplace(this.parentNode.parentNode, this.parentNode.parentNode.querySelector('.adm-slot-name-input').value)">📎 選擇檔案</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 為必填欄位</span>
+              <button class="adm-cancel-btn" onclick="admCloseModal('case')">取消</button>
+              <button class="adm-save-btn" onclick="admSave('case')">✓ 儲存</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="adm-modal" id="admModalImport">
+          <div class="adm-modal-bg" onclick="impClose()"></div>
+          <div class="adm-modal-box imp-modal-box">
+            <div class="adm-modal-head imp-head">
+              <div>
+                <div class="adm-modal-title">📥 廠商資料管理 — 批次匯入</div>
+                <div class="imp-sub">三步驟完成批次匯入,系統會自動驗證資料格式、重複性與必填欄位</div>
+              </div>
+              <button class="adm-modal-close" onclick="impClose()">×</button>
+            </div>
+
+            <!-- 步驟條 -->
+            <div class="imp-steps">
+              <div class="imp-step active" id="impStepNav1">
+                <div class="imp-step-num">1</div>
+                <div class="imp-step-lbl">選擇匯入檔案</div>
+              </div>
+              <div class="imp-step-line"></div>
+              <div class="imp-step" id="impStepNav2">
+                <div class="imp-step-num">2</div>
+                <div class="imp-step-lbl">資料驗證 → 編修</div>
+              </div>
+              <div class="imp-step-line"></div>
+              <div class="imp-step" id="impStepNav3">
+                <div class="imp-step-num">3</div>
+                <div class="imp-step-lbl">完成匯入檔案</div>
+              </div>
+            </div>
+
+            <!-- ═════ Step 1:選擇匯入檔案 ═════ -->
+            <div class="imp-pane active" id="impPane1">
+              <div class="imp-pane-body">
+                <div class="imp-card-row">
+
+                  <button type="button" class="imp-card imp-card-tpl" onclick="impDownloadTemplate()">
+                    <div class="imp-card-icon">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    </div>
+                    <div class="imp-card-title">下載匯入範本</div>
+                    <div class="imp-card-desc">取得標準 Excel 範本,內含 2 筆範例資料 + 欄位說明</div>
+                    <div class="imp-card-meta">📄 廠商資料匯入範本_v1.xlsx</div>
+                  </button>
+
+                  <button type="button" class="imp-card imp-card-up" onclick="document.getElementById('impFileInput').click()">
+                    <div class="imp-card-icon">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+                    </div>
+                    <div class="imp-card-title">選擇匯入檔案</div>
+                    <div class="imp-card-desc">從本機選擇已填妥的 .xlsx 檔案上傳</div>
+                    <div class="imp-card-meta" id="impFileName">尚未選擇檔案</div>
+                    <input type="file" id="impFileInput" accept=".xlsx,.xls" style="display:none" onchange="impFileSelected(this)">
+                  </button>
+
+                </div>
+
+                <div class="imp-tip">
+                  <div class="imp-tip-i">💡</div>
+                  <div class="imp-tip-t">
+                    <b>使用提示</b>
+                    <span>第一次匯入請先下載範本,範本含 14 個欄位定義 · 必填欄位以紅字標示 · 上市別/狀態/資料來源已預設下拉選單,請從選項中選擇。</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═════ Step 2:資料驗證 → 編修 ═════ -->
+            <div class="imp-pane" id="impPane2">
+              <div class="imp-pane-body imp-pane2-body">
+
+                <!-- 驗證結果摘要列 -->
+                <div class="imp-result-bar imp-result-err" id="impResultBar">
+                  <div class="imp-result-icon">⚠</div>
+                  <div class="imp-result-text">
+                    <b>您匯入的資料系統驗證有誤,請修正原匯入檔案資料內容後,重新進行匯入動作。</b>
+                    <span>待匯入資料內容正確無誤,再按下「✓ 確認匯入檔案」按鈕即可。</span>
+                  </div>
+                  <div class="imp-result-stats">
+                    <div class="imp-rs"><span class="imp-rs-num">12</span><span class="imp-rs-lbl">總筆數</span></div>
+                    <div class="imp-rs ok"><span class="imp-rs-num">5</span><span class="imp-rs-lbl">驗證通過</span></div>
+                    <div class="imp-rs err"><span class="imp-rs-num">7</span><span class="imp-rs-lbl">需修正</span></div>
+                  </div>
+                </div>
+
+                <!-- 圖例 -->
+                <div class="imp-legend">
+                  <span class="imp-legend-title">★ 資料內容</span>
+                  <span class="imp-legend-items">
+                    <span class="imp-lg imp-lg-err">資料格式錯誤</span>
+                    <span class="imp-lg imp-lg-dup">資料重複</span>
+                    <span class="imp-lg imp-lg-miss">尚缺資料內容</span>
+                  </span>
+                </div>
+
+                <!-- 預覽表格(由 JS 動態渲染)-->
+                <div class="imp-preview-wrap">
+                  <table class="imp-preview-tbl" id="impPreviewTbl">
+                    <thead>
+                      <tr>
+                        <th class="imp-th-row">#</th>
+                        <th>統一編號</th>
+                        <th>股票代號</th>
+                        <th>正式中文名稱</th>
+                        <th>正式英文名稱</th>
+                        <th>代表人</th>
+                        <th>建檔年</th>
+                        <th>上市別</th>
+                        <th>實收資本額</th>
+                        <th>員工人數</th>
+                        <th>所在縣市</th>
+                        <th>電話 / 網址</th>
+                        <th>狀態</th>
+                        <th>資料來源</th>
+                        <th>備註</th>
+                      </tr>
+                    </thead>
+                    <tbody id="impPreviewBody"></tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═════ Step 3:完成匯入 ═════ -->
+            <div class="imp-pane" id="impPane3">
+              <div class="imp-pane-body imp-done-body">
+                <div class="imp-done-icon">
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div class="imp-done-title">資料匯入成功</div>
+                <div class="imp-done-msg">
+                  本次共成功匯入 <b id="impDoneCount">12</b> 筆廠商資料 · 已寫入廠商主檔資料庫
+                </div>
+                <div class="imp-done-meta">
+                  <div>匯入時間 · <b id="impDoneTime">—</b></div>
+                  <div>操作人員 · <b>王玉姍 / 對外投資科 二科</b></div>
+                  <div>檔案名稱 · <b id="impDoneFile">—</b></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底部按鈕區(依步驟切換)-->
+            <div class="adm-modal-footer imp-footer">
+              <!-- Step 1 footer -->
+              <div class="imp-footer-pane active" data-pane="1">
+                <span class="imp-footer-hint">請先下載範本或選擇檔案</span>
+                <button class="adm-cancel-btn" onclick="impClose()">取消</button>
+                <button class="adm-save-btn" id="impStep1Next" onclick="impGoStep(2)" disabled>下一步 →</button>
+              </div>
+              <!-- Step 2 footer -->
+              <div class="imp-footer-pane" data-pane="2">
+                <span class="imp-footer-hint" id="impStep2Hint">⚠ 請修正錯誤後重新匯入</span>
+                <button class="adm-cancel-btn" onclick="impGoStep(1)">← 重新匯入檔案</button>
+                <button class="adm-save-btn" id="impStep2Confirm" onclick="impGoStep(3)" disabled>✓ 確認匯入檔案</button>
+              </div>
+              <!-- Step 3 footer -->
+              <div class="imp-footer-pane" data-pane="3">
+                <span class="imp-footer-hint">資料已成功寫入系統</span>
+                <button class="adm-save-btn" onclick="impClose()">返回廠商資料管理</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="adm-modal" id="loginDescModal">
+          <div class="adm-modal-bg" onclick="loginDescCloseModal()"></div>
+          <div class="adm-modal-box" style="width:min(520px,92vw)">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">✏️ 修改登入頁說明文字</div></div>
+              <button class="adm-modal-close" onclick="loginDescCloseModal()">×</button>
+            </div>
+            <div class="adm-modal-body">
+              <div class="adm-form-group full" style="margin-bottom:12px">
+                <label>說明文字 1</label>
+                <textarea id="loginDescEdit1" rows="3" style="width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
+              </div>
+              <div class="adm-form-group full">
+                <label>說明文字 2</label>
+                <textarea id="loginDescEdit2" rows="2" style="width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;font-family:inherit;resize:vertical"></textarea>
+              </div>
+            </div>
+            <div class="adm-modal-footer">
+              <button class="adm-cancel-btn" onclick="loginDescCloseModal()">取消</button>
+              <button class="adm-save-btn" onclick="loginDescSaveModal()">✓ 儲存</button>
+            </div>
+          </div>
+        </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../../assets/js/industry.js"></script>
+<script src="../../assets/js/tech.js"></script>
+<script src="../../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "../dash.html", "query2": "../query.html", "detail": "../firm-detail.html", "cases": "../cases.html", "case-detail": "../case-detail.html", "industry": "../industry.html", "tech": "../tech.html", "audit": "../audit.html", "adm-users": "users.html", "settings": "settings.html", "adm-firm": "firm.html", "adm-industry": "industry.html", "adm-tech": "tech.html", "adm-case": "cases.html", "orgmgr": "../orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+
+  // 診斷：確認管理函式已載入
+  if (typeof admOpenModal !== 'function') {
+    console.warn('[系統] admOpenModal 未定義，嘗試修復...');
+    // 強制重新載入 main.js
+    var s = document.createElement('script');
+    s.src = (window.location.pathname.includes('/admin/') ? '../../' : '../') + 'assets/js/main.js';
+    s.onload = function() { console.log('[系統] main.js 重新載入完成'); };
+    document.head.appendChild(s);
+  } else {
+    console.log('[系統] 管理模組就緒');
+  }
+});
+
+// 管理模組 JS 載入確認
+(function() {
+  var MAX_WAIT = 5000; // 最多等 5 秒
+  var CHECK_FN = 'admOpenModal';
+  var JS_FILES = ["../../assets/js/industry.js", "../../assets/js/tech.js", "../../assets/js/main.js"];
+  
+  function checkAndLoad() {
+    if (typeof window[CHECK_FN] === 'function') return; // 已載入
+    
+    // 動態重新載入 JS 檔案
+    function loadJS(src, cb) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = src;
+      s.onload = cb;
+      s.onerror = cb;
+      document.head.appendChild(s);
+    }
+    
+    var idx = 0;
+    function loadNext() {
+      if (idx >= JS_FILES.length) {
+        if (typeof window[CHECK_FN] !== 'function') {
+          console.error('[管理模組] 載入失敗：' + CHECK_FN + ' 仍未定義');
+        }
+        return;
+      }
+      loadJS(JS_FILES[idx++], loadNext);
+    }
+    loadNext();
+  }
+  
+  // 頁面完全載入後再檢查
+  if (document.readyState === 'complete') {
+    setTimeout(checkAndLoad, 100);
+  } else {
+    window.addEventListener('load', function() { setTimeout(checkAndLoad, 100); });
+  }
+})();
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

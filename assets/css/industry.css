@@ -1,0 +1,83 @@
+@charset "UTF-8";
+      /* 產業地圖 - 樹狀展開元件 */
+      .tree-legend { display:flex; flex-wrap:wrap; gap:12px; padding:10px 16px; background:#fff; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:14px; font-size:13.5px }
+      .tlg-item { display:inline-flex; align-items:center; gap:5px; color:#475569 }
+      .tlg-tag { display:inline-block; padding:2px 7px; border-radius:3px; font-size:11.5px; font-weight:800; color:#fff; font-family:'JetBrains Mono',monospace }
+      .tag-l1 { background:#0a1628 }
+      .tag-l2 { background:#0f2347 }
+      .tag-l3 { background:#3a4d6b }
+      .tag-l4 { background:#7a8aa6 }
+      .tag-l5 { background:#cbd5e1; color:#0f2347 }
+      .tag-l6 { background:#e2e8f0; color:#0f2347; border:1px solid #cbd5e1 }
+      .tag-l7 { background:#f1f5f9; color:#475569; border:1px dashed #cbd5e1 }
+      .tlg-crit { color:#a31621; font-weight:800 }
+
+      .ind-section { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:18px 22px; margin-bottom:14px }
+      .ind-section.crit { border-left:5px solid #a31621; background:linear-gradient(180deg,#fff,#fffaf9) }
+      .ind-section-head { display:flex; align-items:center; gap:14px; padding-bottom:14px; border-bottom:1px solid #e2e8f0; margin-bottom:14px }
+      .ish-icon { font-size:43.5px }
+      .ish-titles { flex:1 }
+      .ish-titles h3 { font-size:20.5px; font-weight:800; color:#0a1628; font-family:'Noto Serif TC',serif }
+      .ish-en { font-size:13.5px; color:#94a3b8; font-weight:500; font-style:italic; font-family:'Inter',sans-serif }
+      .ish-stats { display:flex; gap:14px; margin-top:6px; flex-wrap:wrap }
+      .ish-stat { font-size:13.5px; color:#64748b }
+      .ish-stat b { color:#0f2347; font-weight:800 }
+      .ish-stat.warn { color:#a31621 }
+      .ish-stat.warn b { color:#a31621 }
+      .ish-flag { background:#fee2e2; color:#a31621; padding:6px 14px; border-radius:5px; font-size:15px; font-weight:700; border:1px solid #fca5a5 }
+
+      .tree-container { padding:6px 0 }
+      .tn { margin:1px 0; font-size:15px }
+      .tn-row { display:flex; align-items:center; gap:7px; padding:5px 8px; border-radius:5px; cursor:pointer; transition:background .12s }
+      .tn-row:hover { background:#f1f5f9 }
+      .tn.crit > .tn-row { background:#fff5f5 }
+      .tn.crit > .tn-row:hover { background:#fee2e2 }
+      .tn.has-crit > .tn-row { background:#fffbf5 }
+      .tn-chev { width:16px; height:16px; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11.5px; transition:transform .15s; flex-shrink:0 }
+      .tn.open > .tn-row > .tn-chev { transform:rotate(90deg); color:#b8860b }
+      .tn.leaf > .tn-row > .tn-chev { color:transparent; cursor:default }
+      .tn-tag { padding:2px 7px; border-radius:3px; font-size:11.5px; font-weight:800; color:#fff; font-family:'JetBrains Mono',monospace; flex-shrink:0; min-width:28px; text-align:center }
+      .tn-l2 .tn-tag { background:#0f2347 }
+      .tn-l3 .tn-tag { background:#3a4d6b }
+      .tn-l4 .tn-tag { background:#7a8aa6 }
+      .tn-l5 .tn-tag { background:#cbd5e1; color:#0f2347 }
+      .tn-l6 .tn-tag, .tn-l7 .tn-tag { background:#e2e8f0; color:#0f2347 }
+      .tn-name { color:#0f2347; flex:1 }
+      .tn.crit > .tn-row > .tn-name { color:#a31621; font-weight:700 }
+      .tn-l2 > .tn-row > .tn-name { font-weight:700; font-size:16px }
+      .tn-l3 > .tn-row > .tn-name { font-weight:600 }
+      .tn-crit-mark { color:#a31621; font-weight:800; font-size:15px }
+      .tn-cnt { font-size:12px; color:#94a3b8; font-family:'JetBrains Mono',monospace; flex-shrink:0 }
+      /* ★ v3.1 新增：節點編號 chip */
+      .tn-sn {
+        font-size:11.5px;
+        color:#64748b;
+        font-family:'JetBrains Mono',monospace;
+        background:#f1f5f9;
+        border:1px solid #e2e8f0;
+        padding:1px 6px;
+        border-radius:3px;
+        flex-shrink:0;
+        font-weight:600;
+        letter-spacing:0.2px;
+      }
+      .tn.crit > .tn-row > .tn-sn {
+        background:#fee2e2;
+        border-color:#fca5a5;
+        color:#a31621;
+      }
+      .tn.has-crit > .tn-row > .tn-sn {
+        background:#fef3c7;
+        border-color:#fcd34d;
+        color:#92400e;
+      }
+      .tn-children { padding-left:24px; border-left:1px dashed #e2e8f0; margin-left:8px; display:none }
+      .tn.open > .tn-children { display:block }
+
+      .ind-mini-title { font-size:16px; font-weight:700; color:#475569; margin:18px 0 10px; padding-left:4px }
+      .ind-mini-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px }
+      .ind-mini { background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; display:flex; align-items:center; gap:14px }
+      .ind-mini.crit { border-left:4px solid #a31621 }
+      .im-icon { font-size:27.5px }
+      .im-name { font-weight:700; color:#0a1628; font-size:15.5px; flex:1 }
+      .im-stat { font-size:12.5px; color:#64748b; font-family:'JetBrains Mono',monospace }

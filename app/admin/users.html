@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投審司產業鏈查詢系統｜帳號管理</title>
+<link rel="stylesheet" href="../../assets/css/layout.css">
+<link rel="stylesheet" href="../../assets/css/shared.css">
+<link rel="stylesheet" href="../../assets/css/detail.css">
+<link rel="stylesheet" href="../../assets/css/orgmgr.css">
+<link rel="stylesheet" href="../../assets/css/query.css">
+</head>
+<body data-nav-page="adm-users" data-crumb="帳號管理" data-root="../../">
+
+<div class="content">
+        <div id="page-adm-users">
+            <div class="page-head">
+              <div>
+                <h2 class="ph-title">帳號管理</h2>
+                <div class="ph-sub">系統使用者帳號清單 · 管理帳號狀態與權限設定</div>
+              </div>
+              <button class="adm-add-btn" onclick="uaMgrOpen('new')">＋ 新增帳號</button>
+            </div>
+
+            <!-- 搜尋列 -->
+            <div class="ua-search-bar">
+              <input class="ua-search-input" id="uaSearchInput" type="text" placeholder="搜尋帳號 / 姓名 / 單位…" oninput="uaRenderTable()">
+              <select class="ua-search-sel" id="uaStatusFilter" onchange="uaRenderTable()">
+                <option value="">全部狀態</option>
+                <option value="啟用">啟用</option>
+                <option value="關閉">關閉</option>
+                <option value="已過期">已過期</option>
+              </select>
+            </div>
+
+            <!-- 帳號列表 -->
+            <div class="adm-table-wrap" style="margin-top:12px">
+              <table class="adm-table" id="uaTable">
+                <thead>
+                  <tr>
+                    <th class="col-seq">編號</th>
+                    <th>帳號</th>
+                    <th>姓名</th>
+                    <th>單位</th>
+                    <th>職稱</th>
+                    <th>狀態</th>
+                    <th>備註</th>
+                    <th class="col-action">管理</th>
+                  </tr>
+                </thead>
+                <tbody id="uaTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 帳號管理 編輯 Modal ── -->
+        <div class="adm-modal" id="uaModal">
+          <div class="adm-modal-bg" onclick="uaMgrClose()"></div>
+          <div class="adm-modal-box adm-modal-box-wide" style="width:min(900px,95vw);max-height:90vh">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">👤 <span id="uaModalTitle">編輯帳號</span></div></div>
+              <button class="adm-modal-close" onclick="uaMgrClose()">×</button>
+            </div>
+
+            <!-- Tab 切換 -->
+            <div class="ua-tab-bar">
+              <button class="ua-tab active" id="uaTab0" onclick="uaSwitchTab(0)">基本資料</button>
+              <button class="ua-tab" id="uaTab1" onclick="uaSwitchTab(1)">權限設定</button>
+            </div>
+
+            <!-- Tab 0: 基本資料 -->
+            <div class="adm-modal-body" id="uaTabPanel0">
+              <div class="adm-form-grid">
+                <div class="adm-form-group">
+                  <label>帳號<span class="req">*</span></label>
+                  <input type="text" id="ua-account" placeholder="例: yushan.wang">
+                </div>
+                <div class="adm-form-group">
+                  <label>姓名<span class="req">*</span></label>
+                  <input type="text" id="ua-name" placeholder="例: 王玉姍">
+                </div>
+                <div class="adm-form-group">
+                  <label>單位</label>
+                  <input type="text" id="ua-dept" placeholder="例: 對外投資科">
+                </div>
+                <div class="adm-form-group">
+                  <label>職稱</label>
+                  <input type="text" id="ua-title" placeholder="例: 審查官">
+                </div>
+                <div class="adm-form-group">
+                  <label>狀態</label>
+                  <div class="ua-radio-group">
+                    <label class="ua-radio"><input type="radio" name="ua-status" value="啟用" checked> 啟用</label>
+                    <label class="ua-radio"><input type="radio" name="ua-status" value="關閉"> 關閉</label>
+                    <label class="ua-radio"><input type="radio" name="ua-status" value="已過期"> 已過期</label>
+                  </div>
+                </div>
+                <div class="adm-form-group">
+                  <label>帳號啟用日期</label>
+                  <input type="date" id="ua-start-date">
+                </div>
+                <div class="adm-form-group">
+                  <label>帳號停用日期 <span style="font-weight:400;color:#94a3b8">（非必填）</span></label>
+                  <input type="date" id="ua-end-date">
+                </div>
+                <div class="adm-form-group full">
+                  <label>備註</label>
+                  <textarea id="ua-remark" rows="3" placeholder="備註說明…"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 1: 權限設定 -->
+            <div class="adm-modal-body" id="uaTabPanel1" style="display:none">
+              <div class="ua-perm-wrap">
+                <!-- 主要功能 -->
+                <div class="ua-perm-section-title">主要功能</div>
+                <table class="ua-perm-table">
+                  <thead>
+                    <tr>
+                      <th class="ua-perm-module-col">模組</th>
+                      <th class="ua-perm-chk-col">查看</th>
+                      <th class="ua-perm-chk-col">資料匯出</th>
+                    </tr>
+                  </thead>
+                  <tbody id="uaPermMainBody"></tbody>
+                </table>
+
+                <!-- 管理功能 -->
+                <div class="ua-perm-section-title" style="margin-top:20px;display:flex;align-items:center;gap:10px">
+                  管理功能
+                  <label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:400;color:#64748b;cursor:pointer">
+                    <input type="checkbox" id="uaAdmVisible" class="ua-perm-cb" style="width:15px;height:15px;accent-color:#a31621" onchange="uaToggleAdmVisible(this.checked)">
+                    管理區塊可見（不勾則整個管理側邊欄隱藏）
+                  </label>
+                </div>
+                <table class="ua-perm-table">
+                  <thead>
+                    <tr>
+                      <th class="ua-perm-module-col">模組</th>
+                      <th class="ua-perm-chk-col">列表</th>
+                      <th class="ua-perm-chk-col">新增</th>
+                      <th class="ua-perm-chk-col">修改</th>
+                      <th class="ua-perm-chk-col">刪除</th>
+                    </tr>
+                  </thead>
+                  <tbody id="uaPermAdmBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Footer -->
+                        <div class="adm-maintain-info">
+              <div class="adm-maintain-info-title">☰ 維護信息</div>
+              <div class="adm-maintain-grid">
+                <div class="adm-maintain-row"><span class="adm-maintain-key">創建管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">建立日期：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新管理員：</span><span class="adm-maintain-val">工研院-系統管理者</span></div>
+                <div class="adm-maintain-row"><span class="adm-maintain-key">最後更新時間：</span><span class="adm-maintain-val">2026/1/15 上午 11:01:02</span></div>
+              </div>
+            </div>
+<div class="adm-modal-footer">
+              <span class="req-tip"><span class="req">*</span> 必填欄位</span>
+              <button class="adm-cancel-btn" onclick="uaMgrClose()">取消</button>
+              <button class="adm-save-btn" onclick="uaSave()">✓ 確認儲存</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 儲存成功提示 modal ── -->
+        <div class="adm-modal" id="uaSavePromptModal">
+          <div class="adm-modal-bg" onclick="uaSavePromptClose()"></div>
+          <div class="adm-modal-box" style="width:min(420px,92vw)">
+            <div class="adm-modal-head">
+              <div><div class="adm-modal-title">✅ 儲存成功</div></div>
+            </div>
+            <div class="adm-modal-body" style="padding:24px 22px;text-align:center">
+              <p style="font-size:14px;color:#0f2347;margin-bottom:18px">帳號資料已儲存完成。</p>
+              <div style="display:flex;gap:12px;justify-content:center">
+                <button class="adm-cancel-btn" style="min-width:130px" onclick="uaSavePromptGoNext()">繼續設定權限</button>
+                <button class="adm-save-btn" style="min-width:130px" onclick="uaSavePromptClose()">離開</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.content -->
+      </div><!-- /.main -->
+      </div><!-- /.shell -->
+
+    <div id="toast" class="toast"></div>
+
+    <!-- v6 修改密碼 modal -->
+    <div class="pw-modal" id="pwModal">
+      <div class="pw-modal-backdrop" onclick="pwClose()"></div>
+      <div class="pw-modal-card">
+        <div class="pw-modal-head">
+          <span>🔐</span>
+          <span>修改密碼</span>
+          <button class="pw-modal-x" onclick="pwClose()" title="關閉">×</button>
+        </div>
+        <div class="pw-modal-body">
+          <div class="pw-form-group">
+            <label>舊密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwOld" placeholder="請輸入目前使用的密碼">
+          </div>
+          <div class="pw-form-group">
+            <label>新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew" placeholder="請輸入新密碼(至少 8 字元)">
+            <div class="pw-help">建議使用至少 8 字元,包含大小寫字母與數字</div>
+          </div>
+          <div class="pw-form-group">
+            <label>確認新密碼 <span class="pw-req">*</span></label>
+            <input type="password" id="pwNew2" placeholder="再次輸入新密碼">
+            <div class="pw-msg" id="pwMsg"></div>
+          </div>
+        </div>
+        <div class="pw-modal-foot">
+          <button class="pw-cancel" onclick="pwClose()">取消</button>
+          <button class="pw-save" onclick="pwSave()">✓ 儲存</button>
+        </div>
+      </div>
+    </div>
+
+
+<script src="../../assets/js/main.js"></script>
+<script>
+var _URLS={"dash": "../dash.html", "query2": "../query.html", "detail": "../firm-detail.html", "cases": "../cases.html", "case-detail": "../case-detail.html", "industry": "../industry.html", "tech": "../tech.html", "audit": "../audit.html", "adm-users": "users.html", "settings": "settings.html", "adm-firm": "firm.html", "adm-industry": "industry.html", "adm-tech": "tech.html", "adm-case": "cases.html", "orgmgr": "../orgmgr.html"};
+window.showPage=function(id,btn,state){
+  if(id==='detail'&&state&&state.firmId){
+    location.href=_URLS['detail']+'?firmId='+encodeURIComponent(state.firmId);return;
+  }
+  if(_URLS[id])location.href=_URLS[id];
+};
+window.goView=function(t){location.href=_URLS[t||'dash'];};
+document.addEventListener('DOMContentLoaded',function(){
+  // sidebar active 由 shell-loader.js 處理
+  try{uaRenderTable();}catch(e){console.warn("uaRenderTable",e);}
+  
+});
+
+// 管理模組 JS 載入確認
+(function() {
+  var MAX_WAIT = 5000; // 最多等 5 秒
+  var CHECK_FN = 'uaRenderTable';
+  var JS_FILES = ["../../assets/js/industry.js", "../../assets/js/tech.js", "../../assets/js/main.js"];
+  
+  function checkAndLoad() {
+    if (typeof window[CHECK_FN] === 'function') return; // 已載入
+    
+    // 動態重新載入 JS 檔案
+    function loadJS(src, cb) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = src;
+      s.onload = cb;
+      s.onerror = cb;
+      document.head.appendChild(s);
+    }
+    
+    var idx = 0;
+    function loadNext() {
+      if (idx >= JS_FILES.length) {
+        if (typeof window[CHECK_FN] !== 'function') {
+          console.error('[管理模組] 載入失敗：' + CHECK_FN + ' 仍未定義');
+        }
+        return;
+      }
+      loadJS(JS_FILES[idx++], loadNext);
+    }
+    loadNext();
+  }
+  
+  // 頁面完全載入後再檢查
+  if (document.readyState === 'complete') {
+    setTimeout(checkAndLoad, 100);
+  } else {
+    window.addEventListener('load', function() { setTimeout(checkAndLoad, 100); });
+  }
+})();
+
+</script>
+
+<script>
+// ══ Shell Loader ══
+// 動態載入 sidebar + topbar，保持 shell.html 單一來源
+
+(function() {
+  function loadShell() {
+    var root = document.body.getAttribute('data-root') || '../';
+    var shellUrl = root + 'assets/html/shell.html';
+
+    fetch(shellUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(shellHtml) {
+        // 修正 shell 裡的相對路徑
+        // 把 '../app/dash.html' 換成正確的 root + 'app/dash.html'
+        shellHtml = shellHtml
+          .replace(/\.\.\/app\/dash\.html/g, root + 'app/dash.html')
+          .replace(/\.\.\/index\.html/g, root + 'index.html');
+
+        // 建立 shell 結構（補上 .main 和 .shell 的關閉標籤）
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = shellHtml + '</div></div>';
+        var shellEl = wrapper.firstElementChild; // <div class="shell">
+        var mainEl  = shellEl.querySelector('.main');
+
+        // 把 body 下的 .content 移進 .main
+        var contentEl = document.body.querySelector('.content');
+        if (contentEl && mainEl) {
+          mainEl.appendChild(contentEl);
+        }
+
+        // inject shell 到 body 最前面
+        document.body.insertBefore(shellEl, document.body.firstChild);
+
+        // sidebar active
+        var navPage = document.body.getAttribute('data-nav-page');
+        if (navPage) {
+          shellEl.querySelectorAll('.side-link').forEach(function(el) {
+            el.classList.remove('active');
+          });
+          var activeEl = shellEl.querySelector('.side-link[data-page="' + navPage + '"]');
+          if (activeEl) activeEl.classList.add('active');
+        }
+
+        // 麵包屑
+        var crumbEl = document.getElementById('topbar-crumb');
+        if (crumbEl) {
+          crumbEl.textContent = document.body.getAttribute('data-crumb') || '';
+        }
+
+        // 觸發完成事件（讓各頁面的初始化可以等 shell 完成）
+        document.dispatchEvent(new CustomEvent('shell-loaded', {detail:{root:root}}));
+      })
+      .catch(function(e) {
+        console.error('[Shell Loader] 載入失敗:', shellUrl, e);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShell);
+  } else {
+    loadShell();
+  }
+})();
+
+</script>
+</body>
+</html>

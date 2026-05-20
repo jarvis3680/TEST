@@ -1,0 +1,149 @@
+<div class="shell">
+    <!-- 側邊導航 -->
+    <aside class="side">
+      <div class="side-brand" onclick="location.href='../app/dash.html'" style="cursor:pointer" title="回首頁">
+        <div class="side-brand-top">
+          <div class="side-brand-mark"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6BAMAAAB6wkcOAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAALVBMVEUAAAAUQZkQQJ8PPJYVSZolt6oAqqoWSZkXUaIapqYetKUiu6oUQZklt6r///+ikEQvAAAADHRSTlMA/hAR9v4D9hYUEQ9ZrzViAAAAAWJLR0QOb70wTwAAAAd0SU1FB+oEDwcSIwk0M/YAAACvSURBVHja7dwxEYAwEEXBCEmHA9BBixsEYIUKC+lT0+GFmo4iwzGTfQZWwJ+7lGtcJdXI6HQ6nU6n0+l0Op1Op9PpdDqdTqcH6MMU15gkSZIkSZIkSVJv5TcLxnw1a3no9WP9pNPpdDqdTqfT6T3pK51Op9PpdDqdTv+H/lwHXt1NbHuzDnOQJEmSJEmSJEnBxX5V8k2LTqfT6XQ6nU6n0+l0Op1Op9Pp9N70HIiXGxp1ziztVHlfAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI2LTA0LTE1VDA3OjE4OjM1KzAwOjAwGWeW7QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNi0wNC0xNVQwNzoxODozNSswMDowMGg6LlEAAAAASUVORK5CYII=" alt="經濟部"></div>
+          <div class="side-brand-text">
+            <div class="t1">經濟部 ｜ 投資審議司</div>
+            <div class="t2">Department of Investment Review, MOEA</div>
+          </div>
+        </div>
+        <div class="side-brand-sys">產業鏈查詢系統</div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-section-title">主要功能</div>
+        <div class="side-nav">
+          <div class="side-link" data-page="dash" onclick="showPage('dash',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L12 3l9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></svg>
+            首頁總覽
+          </div>
+          <div class="side-link" data-page="query2" onclick="showPage('query2',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            廠商查詢
+          </div>
+          <div class="side-link" data-page="cases" onclick="showPage('cases',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
+            歷史鑑定案件
+          </div>
+          <div class="side-link" data-page="industry" onclick="showPage('industry',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+            產業地圖
+          </div>
+          <div class="side-link" data-page="tech" onclick="showPage('tech',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            國家核心關鍵技術
+          </div>
+        </div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-section-title">管理</div>
+        <div class="side-nav">
+          <div class="side-link" data-page="adm-firm" onclick="showPage('adm-firm',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+            廠商資料管理
+          </div>
+          <div class="side-link" data-page="adm-industry" onclick="showPage('adm-industry',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            產業地圖資料管理
+          </div>
+          <div class="side-link" data-page="adm-tech" onclick="showPage('adm-tech',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            關鍵技術管理
+          </div>
+          <div class="side-link" data-page="adm-case" onclick="showPage('adm-case',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
+            歷史鑑定資料管理
+          </div>
+          <div class="side-link" data-page="audit" onclick="showPage('audit',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            稽核日誌
+          </div>
+          <div class="side-link" data-page="adm-users" onclick="showPage('adm-users',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            帳號管理
+          </div>
+          <div class="side-link" data-page="settings" onclick="showPage('settings',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            系統設定
+          </div>
+        </div>
+      </div>
+
+      <div class="side-foot">
+        <div class="side-user">
+          <div class="side-avatar">王</div>
+          <div class="side-user-text">
+            <div class="un">王玉姍</div>
+            <div class="ut">對外投資科 · 二科</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主內容區 -->
+    <div class="main">
+
+      <!-- 側邊欄遮罩（手機點擊關閉） -->
+      <div class="side-overlay" id="sideOverlay" onclick="sideClose()"></div>
+
+      <!-- 頂列（v3.3 精簡：時間 + 使用者 + 登出） -->
+      <header class="top">
+        <!-- 漢堡選單（僅手機/平板顯示） -->
+        <button class="top-hamburger" id="topHamburger" onclick="sideToggle()" title="選單" aria-label="開啟選單">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="top-crumbs" id="topCrumbs">
+          <span id="topbar-crumb">首頁總覽</span>
+        </div>
+        <div class="top-actions">
+          <div class="top-time" id="topTime">
+            <span class="d">2026-04-28</span>
+            <span class="t">14:27:35</span>
+          </div>
+          <div class="top-divider"></div>
+          <div class="top-user">
+            <div class="top-user-avatar">王</div>
+            <div class="top-user-name">王玉姍</div>
+          </div>
+          <button class="top-pw" onclick="pwOpen()" title="修改密碼">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>修改密碼</span>
+          </button>
+          <button class="top-logout" onclick="if(confirm('確定要登出嗎？')) location.href='../index.html'" title="登出">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>登出</span>
+          </button>
+        </div>
+      </header>
+<script>
+/* ── 手機側邊欄 Toggle ── */
+function sideToggle(){
+  var side=document.querySelector('.side');
+  var overlay=document.getElementById('sideOverlay');
+  var btn=document.getElementById('topHamburger');
+  var open=side.classList.toggle('side-open');
+  overlay.classList.toggle('active',open);
+  btn.classList.toggle('is-open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function sideClose(){
+  var side=document.querySelector('.side');
+  var overlay=document.getElementById('sideOverlay');
+  var btn=document.getElementById('topHamburger');
+  side.classList.remove('side-open');
+  overlay.classList.remove('active');
+  btn.classList.remove('is-open');
+  document.body.style.overflow='';
+}
+/* 切換頁面後關閉側邊欄 */
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.side-link').forEach(function(el){
+    el.addEventListener('click',function(){
+      if(window.innerWidth<1024) sideClose();
+    });
+  });
+});
+</script>
