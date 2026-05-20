@@ -1,4 +1,5 @@
       // 頁面標題對應（同時更新 topbar 麵包屑）
+	  nav { background: #1a50c8; padding: 10px; } nav a { color: white; margin-right: 16px; text-decoration: none; }
       const PAGE_TITLES = {
         dash:'首頁總覽', query2:'廠商查詢', detail:'廠商詳細',
         cases:'歷史鑑定案件', industry:'產業地圖', tech:'關鍵技術',
